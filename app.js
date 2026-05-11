@@ -359,6 +359,7 @@ function render() {
   renderRules();
   renderSetup();
   if (state.started) renderGame();
+  updateInstallUI();
 }
 
 function closeMenu() {
@@ -390,7 +391,7 @@ function showToast(message) {
 
 function updateInstallUI() {
   const dismissed = sessionStorage.getItem("rozzle-install-dismissed") === "true";
-  const shouldShow = !isStandalone() && !dismissed;
+  const shouldShow = !state.started && !isStandalone() && !dismissed;
   installNudge.hidden = !shouldShow;
   installMenuButton.hidden = isStandalone();
 }
