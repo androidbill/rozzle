@@ -9,7 +9,7 @@
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <link rel="stylesheet" href="styles.css?v=13">
+    <link rel="stylesheet" href="styles.css?v=15">
   </head>
   <body>
     <div class="app-shell">
@@ -29,6 +29,7 @@
               <span aria-hidden="true"></span>
             </button>
             <div class="app-menu" id="appMenu" hidden role="menu" aria-label="Rozzle menu">
+              <button type="button" role="menuitem" id="installMenuButton">Install App</button>
               <button type="button" role="menuitem" data-dialog="rulesDialog">Rules</button>
               <button type="button" role="menuitem" data-dialog="themeDialog">Theme</button>
               <button type="button" role="menuitem" id="shareButton">Share</button>
@@ -58,7 +59,6 @@
             <ol class="player-list" id="playerList" aria-label="Turn order"></ol>
 
             <div class="setup-actions">
-              <button class="secondary" id="addDefaultsButton" type="button">Quick 2</button>
               <button class="primary" id="startGameButton" type="button">Start</button>
             </div>
           </div>
@@ -159,6 +159,15 @@
       <div class="theme-grid" id="themeGrid" aria-label="Color themes"></div>
     </dialog>
 
+    <dialog class="info-dialog about-dialog" id="installDialog" aria-labelledby="installDialogTitle">
+      <form method="dialog">
+        <button class="dialog-close" type="submit" aria-label="Close install help">×</button>
+      </form>
+      <p class="eyebrow">Install</p>
+      <h2 id="installDialogTitle">Install Rozzle</h2>
+      <p id="installHelpText">Use your browser menu and choose Add to Home Screen or Install app.</p>
+    </dialog>
+
     <dialog class="info-dialog about-dialog" id="aboutDialog" aria-labelledby="aboutDialogTitle">
       <form method="dialog">
         <button class="dialog-close" type="submit" aria-label="Close about">×</button>
@@ -168,6 +177,6 @@
       <p>Created by Bill Parsons</p>
     </dialog>
 
-    <script src="app.js?v=13" defer></script>
+    <script src="app.js?v=15" defer></script>
   </body>
 </html>

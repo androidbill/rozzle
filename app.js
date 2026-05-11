@@ -26,7 +26,6 @@ const playerList = document.querySelector("#playerList");
 const addPlayerForm = document.querySelector("#addPlayerForm");
 const playerNameInput = document.querySelector("#playerName");
 const startGameButton = document.querySelector("#startGameButton");
-const addDefaultsButton = document.querySelector("#addDefaultsButton");
 const currentPlayerName = document.querySelector("#currentPlayerName");
 const currentPlayerScore = document.querySelector("#currentPlayerScore");
 const scoreInput = document.querySelector("#scoreInput");
@@ -42,6 +41,9 @@ const dialogBackdrop = document.querySelector("#dialogBackdrop");
 const dialogs = Array.from(document.querySelectorAll(".info-dialog"));
 const themeGrid = document.querySelector("#themeGrid");
 const shareButton = document.querySelector("#shareButton");
+const installMenuButton = document.querySelector("#installMenuButton");
+const installDialog = document.querySelector("#installDialog");
+const installHelpText = document.querySelector("#installHelpText");
 const toast = document.querySelector("#toast");
 
 const themes = [
@@ -404,6 +406,31 @@ async function shareApp() {
   }
 }
 
+function getInstallHelp() {
+  const ua = navigator.userAgent.toLowerCase();
+  if (/iphone|ipad|ipod/.test(ua)) {
+    return "On iPhone or iPad: tap the Safari Share button, then choose Add to Home Screen.";
+  }
+  if (/android/.test(ua)) {
+    return "On Android: open Chrome's menu, then choose Install app or Add to Home screen.";
+  }
+  return "Open your browser menu and choose Install app or Add to Home Screen.";
+}
+
+async function installApp() {
+  closeMenu();
+  if (installPrompt) {
+    installPrompt.prompt();
+    await installPrompt.userChoice;
+    installPrompt = null;
+    installButton.hidden = true;
+    return;
+  }
+
+  installHelpText.textContent = getInstallHelp();
+  openDialog(installDialog);
+}
+
 function addPlayer(name) {
   const cleanName = name.trim();
   if (!cleanName) return;
@@ -457,17 +484,6 @@ playerList.addEventListener("click", (event) => {
   if (button.dataset.action === "down") movePlayer(index, index + 1);
 });
 
-addDefaultsButton.addEventListener("click", () => {
-  if (!state.players.length) {
-    state.players = [
-      { name: "Player 1", score: 0, turns: [] },
-      { name: "Player 2", score: 0, turns: [] },
-    ];
-    saveState();
-    renderSetup();
-  }
-});
-
 startGameButton.addEventListener("click", () => {
   if (!state.players.length) return;
   state.started = true;
@@ -517,11 +533,7 @@ window.addEventListener("beforeinstallprompt", (event) => {
 });
 
 installButton.addEventListener("click", async () => {
-  if (!installPrompt) return;
-  installPrompt.prompt();
-  await installPrompt.userChoice;
-  installPrompt = null;
-  installButton.hidden = true;
+  installApp();
 });
 
 menuButton.addEventListener("click", () => {
@@ -538,6 +550,7 @@ appMenu.addEventListener("click", (event) => {
 });
 
 shareButton.addEventListener("click", shareApp);
+installMenuButton.addEventListener("click", installApp);
 
 dialogBackdrop.addEventListener("click", closeDialogs);
 
