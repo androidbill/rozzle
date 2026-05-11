@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#143d3a">
+    <meta name="description" content="Rozzle is an installable Farkle and 10000 dice scorekeeper.">
+    <title>Rozzle</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="styles.css?v=13">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#setup" aria-label="Rozzle setup">
+          <img class="brand-icon" src="icons/icon-192.png" alt="" aria-hidden="true">
+          <span>Rozzle</span>
+        </a>
+        <div class="header-actions">
+          <button class="icon-button" id="installButton" type="button" hidden aria-label="Install Rozzle" title="Install Rozzle">
+            <span aria-hidden="true">+</span>
+          </button>
+          <div class="menu-wrap">
+            <button class="menu-button" id="menuButton" type="button" aria-label="Open menu" aria-haspopup="true" aria-expanded="false" title="Menu">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </button>
+            <div class="app-menu" id="appMenu" hidden role="menu" aria-label="Rozzle menu">
+              <button type="button" role="menuitem" data-dialog="rulesDialog">Rules</button>
+              <button type="button" role="menuitem" data-dialog="themeDialog">Theme</button>
+              <button type="button" role="menuitem" id="shareButton">Share</button>
+              <button type="button" role="menuitem" data-dialog="aboutDialog">About</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="screen setup-screen" id="setupScreen" aria-labelledby="setupTitle">
+          <div class="setup-copy">
+            <p class="eyebrow">Farkle / 10000 scorekeeper</p>
+            <h1 id="setupTitle">Set the table, then roll.</h1>
+            <p>Enter players in turn order, rearrange them if needed, and Rozzle keeps the scorecard moving.</p>
+          </div>
+
+          <div class="setup-panel" aria-label="Player setup">
+            <form class="add-player" id="addPlayerForm">
+              <label for="playerName">Player name</label>
+              <div class="field-row">
+                <input id="playerName" name="playerName" type="text" autocomplete="name" placeholder="Add player" maxlength="24">
+                <button class="primary small" type="submit">Add</button>
+              </div>
+            </form>
+
+            <ol class="player-list" id="playerList" aria-label="Turn order"></ol>
+
+            <div class="setup-actions">
+              <button class="secondary" id="addDefaultsButton" type="button">Quick 2</button>
+              <button class="primary" id="startGameButton" type="button">Start</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen game-screen" id="gameScreen" hidden aria-labelledby="gameTitle">
+          <div class="scoreboard-wrap">
+            <div class="turn-card">
+              <div>
+                <p class="eyebrow">Current turn</p>
+                <h1 id="gameTitle"><span id="currentPlayerName">Player</span></h1>
+              </div>
+              <div class="turn-side">
+                <button class="secondary compact" id="newGameButton" type="button">New Game</button>
+                <div class="turn-total">
+                  <span id="currentPlayerScore">0</span>
+                  <small>points</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="score-entry" aria-label="Score entry">
+              <label for="scoreInput">Points earned this turn</label>
+              <div class="number-pad">
+                <input id="scoreInput" type="number" min="0" max="99999" step="50" inputmode="numeric" placeholder="0">
+                <button class="primary" id="addScoreButton" type="button">Add Score</button>
+                <button class="secondary" id="farkleButton" type="button">Next Player</button>
+              </div>
+              <div class="quick-scores" aria-label="Quick score buttons">
+                <button type="button" data-score="50">+50</button>
+                <button type="button" data-score="100">+100</button>
+                <button type="button" data-score="200">+200</button>
+                <button type="button" data-score="300">+300</button>
+                <button type="button" data-score="500">+500</button>
+                <button type="button" data-score="1000">+1000</button>
+                <button type="button" data-score="1500">+1500</button>
+                <button type="button" data-score="2500">+2500</button>
+              </div>
+            </div>
+
+            <div class="players-scorecard" id="scorecard" aria-label="Player scores"></div>
+          </div>
+
+          <aside class="rules-panel" aria-labelledby="rulesTitle">
+            <div class="rules-heading">
+              <p class="eyebrow">Always visible</p>
+              <h2 id="rulesTitle">Dice Points</h2>
+            </div>
+            <div class="rules-grid" id="rulesGrid"></div>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <div class="dialog-backdrop" id="dialogBackdrop" hidden></div>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <dialog class="info-dialog" id="rulesDialog" aria-labelledby="rulesDialogTitle">
+      <form method="dialog">
+        <button class="dialog-close" type="submit" aria-label="Close rules">×</button>
+      </form>
+      <p class="eyebrow">Rules</p>
+      <h2 id="rulesDialogTitle">How To Play Rozzle</h2>
+      <p>Rozzle is a 2-4 player "push-your-luck" dice game where players aim to be the first to reach 10,000 points. Players roll six dice, setting aside scoring combinations (1s, 5s, or sets), and can either bank points or risk them by re-rolling remaining dice, aiming for 10,000+ points.</p>
+
+      <h3>Basic Scoring Rules</h3>
+      <ul>
+        <li>Single 1: 100 points</li>
+        <li>Single 5: 50 points</li>
+        <li>Three 1s: 1,000 points</li>
+        <li>Three 2s: 200 points</li>
+        <li>Three 3s: 300 points</li>
+        <li>Three 4s: 400 points</li>
+        <li>Three 5s: 500 points</li>
+        <li>Three 6s: 600 points</li>
+        <li>Four, Five, or Six of a Kind: Doubles the 3-of-a-kind score for each additional die (e.g., four 2s = 400, five 2s = 800).</li>
+        <li>Straight (1-2-3-4-5-6): 1,500 points.</li>
+        <li>Three Pairs: 1,500 points.</li>
+        <li>Four of a Kind + Pair: 1,500 points.</li>
+        <li>Two Triplets (e.g., 3-3-3 and 4-4-4): 2,500 points.</li>
+      </ul>
+
+      <h3>Key Game Terms</h3>
+      <ul>
+        <li>Rozzle: If no scoring dice appear in a roll, it is a "Farkle," and you lose all points accumulated in that turn.</li>
+        <li>Hot Dice: If all six dice are used for scoring in one turn, the player can pick up all six and roll again to continue increasing their score.</li>
+        <li>Opening Score: Rules often require a minimum score (often 500 or 1000) to start banking points.</li>
+        <li>Winning: The first player to reach or exceed 10,000 points on their turn wins, though some rules allow other players one final turn.</li>
+      </ul>
+    </dialog>
+
+    <dialog class="info-dialog theme-dialog" id="themeDialog" aria-labelledby="themeDialogTitle">
+      <form method="dialog">
+        <button class="dialog-close" type="submit" aria-label="Close theme">×</button>
+      </form>
+      <p class="eyebrow">Theme</p>
+      <h2 id="themeDialogTitle">Choose A Look</h2>
+      <div class="theme-grid" id="themeGrid" aria-label="Color themes"></div>
+    </dialog>
+
+    <dialog class="info-dialog about-dialog" id="aboutDialog" aria-labelledby="aboutDialogTitle">
+      <form method="dialog">
+        <button class="dialog-close" type="submit" aria-label="Close about">×</button>
+      </form>
+      <p class="eyebrow">About</p>
+      <h2 id="aboutDialogTitle">Rozzle</h2>
+      <p>Created by Bill Parsons</p>
+    </dialog>
+
+    <script src="app.js?v=13" defer></script>
+  </body>
+</html>
