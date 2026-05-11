@@ -1,6 +1,7 @@
 {
   "name": "Rozzle",
   "short_name": "Rozzle",
+  "id": "./",
   "description": "An installable Farkle and 10000 dice scorekeeper.",
   "start_url": "./index.html",
   "scope": "./",

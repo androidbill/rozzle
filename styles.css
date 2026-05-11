@@ -427,6 +427,32 @@ button {
   outline: none;
 }
 
+.install-nudge {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 10px;
+  border: 1px solid rgba(20, 61, 58, 0.16);
+  border-radius: 8px;
+  padding: 10px;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--panel) 92%, var(--gold));
+  box-shadow: 0 12px 34px rgba(21, 38, 35, 0.12);
+}
+
+.install-nudge strong,
+.install-nudge span {
+  display: block;
+}
+
+.install-nudge span {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
 .screen {
   width: 100%;
 }

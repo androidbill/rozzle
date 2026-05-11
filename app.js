@@ -44,6 +44,9 @@ const shareButton = document.querySelector("#shareButton");
 const installMenuButton = document.querySelector("#installMenuButton");
 const installDialog = document.querySelector("#installDialog");
 const installHelpText = document.querySelector("#installHelpText");
+const installNudge = document.querySelector("#installNudge");
+const installNudgeButton = document.querySelector("#installNudgeButton");
+const dismissInstallNudge = document.querySelector("#dismissInstallNudge");
 const toast = document.querySelector("#toast");
 
 const themes = [
@@ -234,6 +237,10 @@ let currentTheme = localStorage.getItem("rozzle-theme") || "rozzle-classic";
 let installPrompt = null;
 let toastTimer = null;
 
+function isStandalone() {
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+}
+
 function saveState() {
   localStorage.setItem("rozzle-state", JSON.stringify(state));
 }
@@ -381,6 +388,13 @@ function showToast(message) {
   }, 2200);
 }
 
+function updateInstallUI() {
+  const dismissed = sessionStorage.getItem("rozzle-install-dismissed") === "true";
+  const shouldShow = !isStandalone() && !dismissed;
+  installNudge.hidden = !shouldShow;
+  installMenuButton.hidden = isStandalone();
+}
+
 async function shareApp() {
   closeMenu();
   const shareData = {
@@ -424,6 +438,7 @@ async function installApp() {
     await installPrompt.userChoice;
     installPrompt = null;
     installButton.hidden = true;
+    updateInstallUI();
     return;
   }
 
@@ -530,10 +545,25 @@ window.addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
   installPrompt = event;
   installButton.hidden = false;
+  updateInstallUI();
 });
 
 installButton.addEventListener("click", async () => {
   installApp();
+});
+
+installNudgeButton.addEventListener("click", installApp);
+
+dismissInstallNudge.addEventListener("click", () => {
+  sessionStorage.setItem("rozzle-install-dismissed", "true");
+  updateInstallUI();
+});
+
+window.addEventListener("appinstalled", () => {
+  installPrompt = null;
+  installButton.hidden = true;
+  sessionStorage.setItem("rozzle-install-dismissed", "true");
+  updateInstallUI();
 });
 
 menuButton.addEventListener("click", () => {
@@ -582,3 +612,4 @@ if ("serviceWorker" in navigator) {
 loadState();
 applyTheme(currentTheme);
 render();
+updateInstallUI();

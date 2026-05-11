@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#143d3a">
     <meta name="description" content="Rozzle is an installable Farkle and 10000 dice scorekeeper.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Rozzle">
     <title>Rozzle</title>
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <link rel="stylesheet" href="styles.css?v=15">
+    <link rel="stylesheet" href="styles.css?v=16">
   </head>
   <body>
     <div class="app-shell">
@@ -38,6 +41,15 @@
           </div>
         </div>
       </header>
+
+      <section class="install-nudge" id="installNudge" hidden aria-label="Install Rozzle">
+        <div>
+          <strong>Install Rozzle</strong>
+          <span>Keep score from your home screen.</span>
+        </div>
+        <button class="primary compact" id="installNudgeButton" type="button">Install</button>
+        <button class="mini-button" id="dismissInstallNudge" type="button" aria-label="Dismiss install prompt">×</button>
+      </section>
 
       <main>
         <section class="screen setup-screen" id="setupScreen" aria-labelledby="setupTitle">
@@ -177,6 +189,6 @@
       <p>Created by Bill Parsons</p>
     </dialog>
 
-    <script src="app.js?v=15" defer></script>
+    <script src="app.js?v=16" defer></script>
   </body>
 </html>
