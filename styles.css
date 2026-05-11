@@ -286,6 +286,82 @@ body[data-theme="candy-pop"] {
   --blue: #9b5de5;
 }
 
+body[data-theme="midnight-table"] {
+  --ink: #17211d; --muted: #607068; --paper: #f3f4e8; --panel: #fbf8ee; --line: #d7d4c0; --green: #18443b; --green-2: #286358; --gold: #c49a3a; --coral: #d56945; --blue: #2f6f73;
+}
+
+body[data-theme="ruby-roll"] {
+  --ink: #241414; --muted: #705a55; --paper: #fff0ea; --panel: #fff9f4; --line: #ead2c9; --green: #8d2638; --green-2: #b13b50; --gold: #d6a94f; --coral: #b7583f; --blue: #4c7c82;
+}
+
+body[data-theme="lakehouse"] {
+  --ink: #10202b; --muted: #526673; --paper: #edf7f9; --panel: #fbfeff; --line: #cbdde4; --green: #1d5b6c; --green-2: #327b8c; --gold: #d3a94d; --coral: #cf765e; --blue: #3c7fac;
+}
+
+body[data-theme="arcade"] {
+  --ink: #16142a; --muted: #5d5972; --paper: #f5f1fb; --panel: #fffaff; --line: #d8cdec; --green: #4b3b8f; --green-2: #6654ad; --gold: #c7a451; --coral: #b85f82; --blue: #4d89ad;
+}
+
+body[data-theme="forest-gold"] {
+  --ink: #172016; --muted: #5c6b55; --paper: #f3f6e9; --panel: #fffff7; --line: #d6ddc7; --green: #315d36; --green-2: #477848; --gold: #c9a33a; --coral: #b96a4d; --blue: #497c78;
+}
+
+body[data-theme="black-ice"] {
+  --ink: #eef5fb; --muted: #a9b9c6; --paper: #0d1217; --panel: #151d25; --line: #2a3845; --green: #7eb6d9; --green-2: #5f9fc8; --gold: #d8c76a; --coral: #d98274; --blue: #5f9fc8;
+}
+
+body[data-theme="sunset"] {
+  --ink: #251815; --muted: #725d55; --paper: #fff0df; --panel: #fff9f1; --line: #ebcdbb; --green: #8a4629; --green-2: #a85f2a; --gold: #e0a43a; --coral: #c75c45; --blue: #3f7781;
+}
+
+body[data-theme="mint-chip"] {
+  --ink: #10231e; --muted: #4f6b61; --paper: #ecfff6; --panel: #fbfffc; --line: #c9e8da; --green: #16725f; --green-2: #249078; --gold: #cbbd4a; --coral: #c96b60; --blue: #347fa0;
+}
+
+body[data-theme="royal-dice"] {
+  --ink: #18162a; --muted: #5c5875; --paper: #f3f0fb; --panel: #fffaff; --line: #d7cfe8; --green: #3c2b72; --green-2: #5946a0; --gold: #c9a046; --coral: #b85b77; --blue: #3e78a8;
+}
+
+body[data-theme="neon-night"] {
+  --ink: #eafaf7; --muted: #a8c8c1; --paper: #071917; --panel: #102723; --line: #24443e; --green: #2dd4bf; --green-2: #22a99a; --gold: #f4c95d; --coral: #ef7d66; --blue: #5eb3c7;
+}
+
+body[data-theme="laser-lime"] {
+  --ink: #08140d; --muted: #3d5b49; --paper: #efffec; --panel: #fbfff7; --line: #c6e7be; --green: #3b8c46; --green-2: #57a85f; --gold: #c9d94a; --coral: #df8b4f; --blue: #4c9a7d;
+}
+
+body[data-theme="cyber-grape"] {
+  --ink: #f6efff; --muted: #c9b8df; --paper: #160f22; --panel: #251b36; --line: #493760; --green: #9b6fe8; --green-2: #7f58c8; --gold: #d8b95a; --coral: #d66e9d; --blue: #6aa6c9;
+}
+
+body[data-theme="electric-blue"] {
+  --ink: #eef9ff; --muted: #a9c8d9; --paper: #061827; --panel: #0d2438; --line: #1c4a66; --green: #44b3d8; --green-2: #2d93ba; --gold: #d8bd5b; --coral: #d97373; --blue: #5e9fca;
+}
+
+body[data-theme="hot-pink"] {
+  --ink: #2a0920; --muted: #7a4c69; --paper: #fff0fa; --panel: #fff9fd; --line: #f0c2df; --green: #b84f82; --green-2: #d06a99; --gold: #d7b85a; --coral: #d46673; --blue: #5c93b5;
+}
+
+body[data-theme="toxic-arcade"] {
+  --ink: #f4ffe8; --muted: #bdd3b0; --paper: #0b1409; --panel: #142313; --line: #304a25; --green: #78c95f; --green-2: #5da949; --gold: #d6d85b; --coral: #d9795c; --blue: #5ab8a5;
+}
+
+body[data-theme="vaporwave"] {
+  --ink: #1f1532; --muted: #65527e; --paper: #f9e9ff; --panel: #fff8ff; --line: #e2c6f3; --green: #7a5cc7; --green-2: #9273df; --gold: #d6b85a; --coral: #d474ad; --blue: #58a7c7;
+}
+
+body[data-theme="solar-flare"] {
+  --ink: #24160a; --muted: #70533a; --paper: #fff7d8; --panel: #fffdf2; --line: #edcf88; --green: #a85f2a; --green-2: #c77832; --gold: #d8a735; --coral: #c96a4d; --blue: #4e87a5;
+}
+
+body[data-theme="matrix"] {
+  --ink: #eaffef; --muted: #9bc6a4; --paper: #020a05; --panel: #07150c; --line: #153522; --green: #54c982; --green-2: #3aa967; --gold: #b8d96a; --coral: #d57966; --blue: #64b6a6;
+}
+
+body[data-theme="candy-pop"] {
+  --ink: #20213d; --muted: #65678b; --paper: #f5fbff; --panel: #ffffff; --line: #d8e5f1; --green: #36a9c9; --green-2: #5bbbd5; --gold: #d8c75c; --coral: #c970a6; --blue: #7d73c9;
+}
+
 * {
   box-sizing: border-box;
 }
