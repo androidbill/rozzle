@@ -1,9 +1,9 @@
-const CACHE_NAME = "rozzle-v30";
+const CACHE_NAME = "rozzle-v34";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./styles.css?v=30",
-  "./app.js?v=30",
+  "./styles.css?v=34",
+  "./app.js?v=34",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",

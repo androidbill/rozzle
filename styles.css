@@ -105,6 +105,7 @@ input:focus { border-color: var(--info); box-shadow: 0 0 0 3px color-mix(in srgb
 .quick-grid button { min-height: 30px; border-radius: 8px; color: var(--primary); background: color-mix(in srgb, var(--accent) 32%, var(--surface)); font-size: .78rem; font-weight: 950; }
 .players-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
 .score-card { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 6px; min-height: 38px; border: 1px solid var(--border); border-radius: 8px; padding: 6px; background: var(--surface); }
+.score-card { cursor: pointer; text-align: left; }
 .score-card.active { border-color: var(--danger); box-shadow: inset 3px 0 0 var(--danger); }
 .score-line { grid-column: 1 / -1; display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
 .score-line strong { color: var(--primary); font-size: 1rem; }
@@ -135,6 +136,16 @@ input:focus { border-color: var(--info); box-shadow: 0 0 0 3px color-mix(in srgb
 .theme-choice small { display: block; color: var(--choice-muted); font-weight: 800; }
 .swatches { display: flex; gap: 4px; }
 .swatches span { width: 15px; height: 32px; border-radius: 8px; border: 1px solid rgba(0,0,0,.09); }
+.round-list { display: grid; gap: 12px; }
+.round-card { display: grid; gap: 8px; border: 1px solid var(--border); border-radius: 8px; padding: 10px; background: var(--surface-2); }
+.round-card h3 { margin: 0; color: var(--primary); font-size: 1rem; }
+.round-turns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.round-turn { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; border: 1px solid var(--border); border-radius: 8px; padding: 0 10px; color: var(--text); background: var(--surface); text-align: left; }
+.round-turn span { overflow: hidden; font-weight: 900; text-overflow: ellipsis; white-space: nowrap; }
+.round-turn strong { color: var(--danger); }
+.round-help { margin: 0 0 10px; color: var(--muted); font-weight: 800; }
+.edit-form { display: grid; gap: 10px; }
+.edit-form p { margin: 0; color: var(--muted); font-weight: 850; }
 .toast { position: fixed; left: 50%; bottom: max(18px, env(safe-area-inset-bottom)); z-index: 80; transform: translateX(-50%); width: max-content; max-width: calc(100% - 32px); border-radius: 8px; padding: 11px 14px; color: #fff; background: var(--primary); box-shadow: var(--shadow); font-weight: 900; }
 
 @media (max-width: 390px) {
@@ -142,6 +153,7 @@ input:focus { border-color: var(--info); box-shadow: 0 0 0 3px color-mix(in srgb
   .brand span { font-size: 1.05rem; }
   .setup-title h1 { font-size: clamp(1.75rem, 9vw, 2.45rem); }
   .theme-grid { grid-template-columns: 1fr; }
+  .round-turns { grid-template-columns: 1fr; }
   .install-card span { display: none; }
 }
 

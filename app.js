@@ -44,10 +44,17 @@ const themes = [
 ];
 
 const flatThemes = themes.flatMap((group) => group.items.map(([id, name, note, colors, ink, muted, panel]) => ({ id, name, note, colors, ink, muted, panel, group: group.group })));
-const defaultState = { players: [], current: 0, started: false };
+const defaultState = { players: [], current: 0, started: false, history: [] };
 const state = loadState();
 let installPrompt = null;
 let toastTimer = null;
+let editingTurnId = null;
+let selectedPlayerIndex = null;
+
+function createId() {
+  if (crypto.randomUUID) return crypto.randomUUID();
+  return `turn-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
 
 const $ = (selector) => document.querySelector(selector);
 const setupScreen = $("#setupScreen");
@@ -64,6 +71,12 @@ const rulesGrid = $("#rulesGrid");
 const fullRulesList = $("#fullRulesList");
 const quickScores = $("#quickScores");
 const themeSections = $("#themeSections");
+const roundList = $("#roundList");
+const playerRoundList = $("#playerRoundList");
+const playerRoundsTitle = $("#playerRoundsTitle");
+const editTurnForm = $("#editTurnForm");
+const editTurnMeta = $("#editTurnMeta");
+const editTurnScore = $("#editTurnScore");
 const menuButton = $("#menuButton");
 const appMenu = $("#appMenu");
 const modalShade = $("#modalShade");
@@ -85,6 +98,14 @@ function loadState() {
       })).filter((p) => p.name),
       current: Number(saved.current) || 0,
       started: Boolean(saved.started && saved.players.length),
+      history: Array.isArray(saved.history) ? saved.history.map((turn) => ({
+        id: String(turn.id || createId()),
+        round: Number(turn.round) || 1,
+        playerIndex: Number(turn.playerIndex) || 0,
+        playerName: String(turn.playerName || ""),
+        playerTurn: Number(turn.playerTurn) || 0,
+        score: Number(turn.score) || 0,
+      })) : [],
     };
   } catch {
     return structuredClone(defaultState);
@@ -156,15 +177,68 @@ function renderSetup() {
 
 function renderScoreboard() {
   scoreboard.innerHTML = state.players.map((player, index) => `
-    <article class="score-card ${index === state.current ? "active" : ""}">
+    <button class="score-card ${index === state.current ? "active" : ""}" type="button" data-player-rounds="${index}" aria-label="Show ${player.name} rounds">
       <span class="badge">${index + 1}</span>
       <span class="name">${player.name}</span>
       <div class="score-line">
         <strong>${player.score.toLocaleString()}</strong>
         <span>${player.turns.length ? `Last: ${player.turns.slice(-2).reverse().join(", ")}` : "No turns yet"}</span>
       </div>
-    </article>
+    </button>
   `).join("");
+}
+
+function renderRounds() {
+  if (!state.history.length) {
+    roundList.innerHTML = `<div class="empty">No rounds recorded yet.</div>`;
+    return;
+  }
+
+  const rounds = state.history.reduce((groups, turn) => {
+    if (!groups[turn.round]) groups[turn.round] = [];
+    groups[turn.round].push(turn);
+    return groups;
+  }, {});
+  roundList.innerHTML = Object.entries(rounds).sort((a, b) => Number(b[0]) - Number(a[0])).map(([round, turns]) => `
+    <section class="round-card">
+      <h3>Round ${round}</h3>
+      <div class="round-turns">
+        ${turns.map((turn) => `
+          <button class="round-turn" type="button" data-edit-turn="${turn.id}">
+            <span>${turn.playerName}</span>
+            <strong>${turn.score.toLocaleString()}</strong>
+          </button>
+        `).join("")}
+      </div>
+    </section>
+  `).join("");
+}
+
+function renderPlayerRounds(playerIndex) {
+  const player = state.players[playerIndex];
+  if (!player) return;
+  playerRoundsTitle.textContent = player.name;
+  const turns = state.history.filter((turn) => turn.playerIndex === playerIndex);
+
+  if (!turns.length) {
+    playerRoundList.innerHTML = `<div class="empty">No rounds recorded for ${player.name} yet.</div>`;
+    return;
+  }
+
+  playerRoundList.innerHTML = `
+    <p class="round-help">Tap a round score to correct it.</p>
+    <section class="round-card">
+      <h3>${player.name}'s rounds</h3>
+      <div class="round-turns">
+        ${turns.map((turn) => `
+          <button class="round-turn" type="button" data-edit-turn="${turn.id}">
+            <span>Round ${turn.round}</span>
+            <strong>${turn.score.toLocaleString()}</strong>
+          </button>
+        `).join("")}
+      </div>
+    </section>
+  `;
 }
 
 function renderGame() {
@@ -196,8 +270,17 @@ function addPlayer(name) {
 function recordTurn(points) {
   const player = state.players[state.current];
   const score = Number(points) || 0;
+  const turnRecord = {
+    id: createId(),
+    round: Math.floor(state.history.length / state.players.length) + 1,
+    playerIndex: state.current,
+    playerName: player.name,
+    playerTurn: player.turns.length,
+    score,
+  };
   player.score += score;
   player.turns.push(score);
+  state.history.push(turnRecord);
   state.current = (state.current + 1) % state.players.length;
   scoreInput.value = "";
   saveState();
@@ -208,6 +291,7 @@ function resetGame() {
   state.started = false;
   state.current = 0;
   state.players = state.players.map((p) => ({ name: p.name, score: 0, turns: [] }));
+  state.history = [];
   scoreInput.value = "";
   saveState();
   render();
@@ -221,6 +305,7 @@ function closeMenu() {
 function openDialog(dialog) {
   closeMenu();
   modalShade.hidden = false;
+  if (dialog.id === "roundsDialog") renderRounds();
   dialog.showModal();
 }
 
@@ -324,12 +409,21 @@ startGame.addEventListener("click", () => {
 });
 
 $("#newGame").addEventListener("click", resetGame);
+$("#roundsButton").addEventListener("click", () => openDialog($("#roundsDialog")));
 $("#addScore").addEventListener("click", () => recordTurn(scoreInput.value));
 $("#nextPlayer").addEventListener("click", () => recordTurn(0));
 quickScores.addEventListener("click", (event) => {
   const button = event.target.closest("[data-score]");
   if (!button) return;
   scoreInput.value = (Number(scoreInput.value) || 0) + Number(button.dataset.score);
+});
+
+scoreboard.addEventListener("click", (event) => {
+  const card = event.target.closest("[data-player-rounds]");
+  if (!card) return;
+  selectedPlayerIndex = Number(card.dataset.playerRounds);
+  renderPlayerRounds(selectedPlayerIndex);
+  openDialog($("#playerRoundsDialog"));
 });
 
 menuButton.addEventListener("click", () => {
@@ -348,6 +442,51 @@ themeSections.addEventListener("click", (event) => {
   const button = event.target.closest("[data-theme]");
   if (!button) return;
   applyTheme(button.dataset.theme);
+});
+
+roundList.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-edit-turn]");
+  if (!button) return;
+  const turn = state.history.find((item) => item.id === button.dataset.editTurn);
+  if (!turn) return;
+  editingTurnId = turn.id;
+  editTurnMeta.textContent = `Round ${turn.round} - ${turn.playerName}`;
+  editTurnScore.value = turn.score;
+  $("#roundsDialog").close();
+  openDialog($("#editTurnDialog"));
+});
+
+playerRoundList.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-edit-turn]");
+  if (!button) return;
+  const turn = state.history.find((item) => item.id === button.dataset.editTurn);
+  if (!turn) return;
+  editingTurnId = turn.id;
+  editTurnMeta.textContent = `${turn.playerName} - Round ${turn.round}`;
+  editTurnScore.value = turn.score;
+  $("#playerRoundsDialog").close();
+  openDialog($("#editTurnDialog"));
+});
+
+editTurnForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const turn = state.history.find((item) => item.id === editingTurnId);
+  if (!turn) return;
+  const player = state.players[turn.playerIndex];
+  const nextScore = Number(editTurnScore.value) || 0;
+  const diff = nextScore - turn.score;
+  turn.score = nextScore;
+  if (player) {
+    player.score += diff;
+    player.turns[turn.playerTurn] = nextScore;
+  }
+  editingTurnId = null;
+  saveState();
+  render();
+  renderRounds();
+  if (selectedPlayerIndex !== null) renderPlayerRounds(selectedPlayerIndex);
+  closeDialogs();
+  showToast("Round score updated");
 });
 
 document.addEventListener("click", (event) => {

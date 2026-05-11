@@ -12,7 +12,7 @@
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <link rel="stylesheet" href="styles.css?v=30">
+    <link rel="stylesheet" href="styles.css?v=34">
   </head>
   <body data-theme="classic">
     <div class="app" id="app">
@@ -75,6 +75,7 @@
               <h1 id="turnName">Player</h1>
             </div>
             <div class="turn-actions">
+              <button class="btn subtle slim" id="roundsButton" type="button">Rounds</button>
               <button class="btn subtle slim" id="newGame" type="button">New Game</button>
               <strong id="turnScore">0</strong>
             </div>
@@ -128,6 +129,32 @@
       <div class="theme-sections" id="themeSections"></div>
     </dialog>
 
+    <dialog class="modal" id="roundsDialog" aria-labelledby="roundsTitle">
+      <button class="modal-close" type="button" data-close-dialog aria-label="Close rounds">x</button>
+      <p class="eyebrow">Corrections</p>
+      <h2 id="roundsTitle">Round History</h2>
+      <div class="round-list" id="roundList"></div>
+    </dialog>
+
+    <dialog class="modal" id="playerRoundsDialog" aria-labelledby="playerRoundsTitle">
+      <button class="modal-close" type="button" data-close-dialog aria-label="Close player rounds">x</button>
+      <p class="eyebrow">Player Rounds</p>
+      <h2 id="playerRoundsTitle">Player</h2>
+      <div class="round-list" id="playerRoundList"></div>
+    </dialog>
+
+    <dialog class="modal small-modal" id="editTurnDialog" aria-labelledby="editTurnTitle">
+      <button class="modal-close" type="button" data-close-dialog aria-label="Close score editor">x</button>
+      <p class="eyebrow">Edit Score</p>
+      <h2 id="editTurnTitle">Correct Turn</h2>
+      <form class="edit-form" id="editTurnForm">
+        <p id="editTurnMeta"></p>
+        <label for="editTurnScore">Score</label>
+        <input id="editTurnScore" type="number" min="0" max="99999" step="50" inputmode="numeric">
+        <button class="btn primary" type="submit">Update Score</button>
+      </form>
+    </dialog>
+
     <dialog class="modal small-modal" id="installDialog" aria-labelledby="installTitle">
       <button class="modal-close" type="button" data-close-dialog aria-label="Close install help">x</button>
       <p class="eyebrow">Install</p>
@@ -143,6 +170,6 @@
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-    <script src="app.js?v=30" defer></script>
+    <script src="app.js?v=34" defer></script>
   </body>
 </html>
