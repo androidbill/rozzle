@@ -14,192 +14,203 @@ const rules = [
   ["Two Triplets", "2,500"],
 ];
 
-const state = {
-  players: [],
-  currentIndex: 0,
-  started: false,
-};
-
-const setupScreen = document.querySelector("#setupScreen");
-const gameScreen = document.querySelector("#gameScreen");
-const playerList = document.querySelector("#playerList");
-const addPlayerForm = document.querySelector("#addPlayerForm");
-const playerNameInput = document.querySelector("#playerName");
-const startGameButton = document.querySelector("#startGameButton");
-const currentPlayerName = document.querySelector("#currentPlayerName");
-const currentPlayerScore = document.querySelector("#currentPlayerScore");
-const scoreInput = document.querySelector("#scoreInput");
-const addScoreButton = document.querySelector("#addScoreButton");
-const farkleButton = document.querySelector("#farkleButton");
-const scorecard = document.querySelector("#scorecard");
-const rulesGrid = document.querySelector("#rulesGrid");
-const installButton = document.querySelector("#installButton");
-const newGameButton = document.querySelector("#newGameButton");
-const menuButton = document.querySelector("#menuButton");
-const appMenu = document.querySelector("#appMenu");
-const dialogBackdrop = document.querySelector("#dialogBackdrop");
-const dialogs = Array.from(document.querySelectorAll(".info-dialog"));
-const themeGrid = document.querySelector("#themeGrid");
-const shareButton = document.querySelector("#shareButton");
-const installMenuButton = document.querySelector("#installMenuButton");
-const installDialog = document.querySelector("#installDialog");
-const installHelpText = document.querySelector("#installHelpText");
-const installNudge = document.querySelector("#installNudge");
-const installNudgeButton = document.querySelector("#installNudgeButton");
-const dismissInstallNudge = document.querySelector("#dismissInstallNudge");
-const toast = document.querySelector("#toast");
-
 const themes = [
-  { id: "rozzle-classic", name: "Rozzle Classic", note: "Teal, ivory, and dice gold", colors: ["#143d3a", "#e7b648", "#d85b4a", "#276d99"], ink: "#17211f", muted: "#596966", panel: "#fffdf6" },
-  { id: "midnight-table", name: "Evergreen Brass", note: "Deep green with warm metal", colors: ["#18443b", "#c49a3a", "#d56945", "#2f6f73"], ink: "#17211d", muted: "#607068", panel: "#fbf8ee" },
-  { id: "ruby-roll", name: "Cranberry Oak", note: "Red, tan, and warm wood", colors: ["#8d2638", "#d6a94f", "#b7583f", "#4c7c82"], ink: "#241414", muted: "#705a55", panel: "#fff9f4" },
-  { id: "lakehouse", name: "Harbor Slate", note: "Blue-green and soft coral", colors: ["#1d5b6c", "#d3a94d", "#cf765e", "#3c7fac"], ink: "#10202b", muted: "#526673", panel: "#fbfeff" },
-  { id: "arcade", name: "Amethyst Dusk", note: "Purple, mauve, and blue", colors: ["#4b3b8f", "#c7a451", "#b85f82", "#4d89ad"], ink: "#16142a", muted: "#5d5972", panel: "#fffaff" },
-  { id: "forest-gold", name: "Moss Linen", note: "Soft greens and old gold", colors: ["#315d36", "#c9a33a", "#b96a4d", "#497c78"], ink: "#172016", muted: "#5c6b55", panel: "#fffff7" },
-  { id: "black-ice", name: "Polar Night", note: "Dark navy and ice blue", colors: ["#7eb6d9", "#d8c76a", "#d98274", "#5f9fc8"], ink: "#eef5fb", muted: "#a9b9c6", panel: "#151d25" },
-  { id: "sunset", name: "Ember Clay", note: "Terracotta and honey", colors: ["#8a4629", "#e0a43a", "#c75c45", "#3f7781"], ink: "#251815", muted: "#725d55", panel: "#fff9f1" },
-  { id: "mint-chip", name: "Sage Mint", note: "Fresh greens and blue", colors: ["#16725f", "#cbbd4a", "#c96b60", "#347fa0"], ink: "#10231e", muted: "#4f6b61", panel: "#fbfffc" },
-  { id: "royal-dice", name: "Royal Plum", note: "Plum, gold, and berry", colors: ["#3c2b72", "#c9a046", "#b85b77", "#3e78a8"], ink: "#18162a", muted: "#5c5875", panel: "#fffaff" },
-  { id: "neon-night", name: "Teal Nocturne", note: "Dark teal with aqua glow", colors: ["#2dd4bf", "#f4c95d", "#ef7d66", "#5eb3c7"], ink: "#eafaf7", muted: "#a8c8c1", panel: "#102723" },
-  { id: "laser-lime", name: "Citrus Grove", note: "Lime, leaf, and lemon", colors: ["#3b8c46", "#c9d94a", "#df8b4f", "#4c9a7d"], ink: "#08140d", muted: "#3d5b49", panel: "#fbfff7" },
-  { id: "cyber-grape", name: "Violet Dusk", note: "Dark violet and orchid", colors: ["#9b6fe8", "#d8b95a", "#d66e9d", "#6aa6c9"], ink: "#f6efff", muted: "#c9b8df", panel: "#251b36" },
-  { id: "electric-blue", name: "Cobalt Night", note: "Dark blue and cyan", colors: ["#44b3d8", "#d8bd5b", "#d97373", "#5e9fca"], ink: "#eef9ff", muted: "#a9c8d9", panel: "#0d2438" },
-  { id: "hot-pink", name: "Rose Quartz", note: "Pink, cream, and berry", colors: ["#b84f82", "#d7b85a", "#d46673", "#5c93b5"], ink: "#2a0920", muted: "#7a4c69", panel: "#fff9fd" },
-  { id: "toxic-arcade", name: "Emerald Night", note: "Dark green and chartreuse", colors: ["#78c95f", "#d6d85b", "#d9795c", "#5ab8a5"], ink: "#f4ffe8", muted: "#bdd3b0", panel: "#142313" },
-  { id: "vaporwave", name: "Lavender Mist", note: "Soft violet and rose", colors: ["#7a5cc7", "#d6b85a", "#d474ad", "#58a7c7"], ink: "#1f1532", muted: "#65527e", panel: "#fff8ff" },
-  { id: "solar-flare", name: "Desert Sun", note: "Ochre, clay, and sky", colors: ["#a85f2a", "#d8a735", "#c96a4d", "#4e87a5"], ink: "#24160a", muted: "#70533a", panel: "#fffdf2" },
-  { id: "matrix", name: "Jade Terminal", note: "Dark jade monochrome", colors: ["#54c982", "#b8d96a", "#d57966", "#64b6a6"], ink: "#eaffef", muted: "#9bc6a4", panel: "#07150c" },
-  { id: "candy-pop", name: "Sky Candy", note: "Soft cyan and violet", colors: ["#36a9c9", "#d8c75c", "#c970a6", "#7d73c9"], ink: "#20213d", muted: "#65678b", panel: "#ffffff" },
+  { group: "Table Classics", items: [
+    ["classic", "Rozzle Classic", "Teal, ivory, and dice gold", ["#123c38", "#d9aa43", "#c85d49", "#2d7697"], "#17211f", "#596966", "#fffdf7"],
+    ["evergreen", "Evergreen Brass", "Deep green with warm metal", ["#18443b", "#c49a3a", "#d56945", "#2f6f73"], "#17211d", "#607068", "#fbf8ee"],
+    ["cranberry", "Cranberry Oak", "Red, tan, and warm wood", ["#8d2638", "#d6a94f", "#b7583f", "#4c7c82"], "#241414", "#705a55", "#fff9f4"],
+    ["harbor", "Harbor Slate", "Blue-green and soft coral", ["#1d5b6c", "#d3a94d", "#cf765e", "#3c7fac"], "#10202b", "#526673", "#fbfeff"],
+    ["moss", "Moss Linen", "Soft greens and old gold", ["#315d36", "#c9a33a", "#b96a4d", "#497c78"], "#172016", "#5c6b55", "#fffff7"],
+  ]},
+  { group: "Soft Color", items: [
+    ["amethyst", "Amethyst Dusk", "Purple, mauve, and blue", ["#4b3b8f", "#c7a451", "#b85f82", "#4d89ad"], "#16142a", "#5d5972", "#fffaff"],
+    ["ember", "Ember Clay", "Terracotta and honey", ["#8a4629", "#e0a43a", "#c75c45", "#3f7781"], "#251815", "#725d55", "#fff9f1"],
+    ["sage", "Sage Mint", "Fresh greens and blue", ["#16725f", "#cbbd4a", "#c96b60", "#347fa0"], "#10231e", "#4f6b61", "#fbfffc"],
+    ["plum", "Royal Plum", "Plum, gold, and berry", ["#3c2b72", "#c9a046", "#b85b77", "#3e78a8"], "#18162a", "#5c5875", "#fffaff"],
+    ["rose", "Rose Quartz", "Pink, cream, and berry", ["#b84f82", "#d7b85a", "#d46673", "#5c93b5"], "#2a0920", "#7a4c69", "#fff9fd"],
+    ["lavender", "Lavender Mist", "Soft violet and rose", ["#7a5cc7", "#d6b85a", "#d474ad", "#58a7c7"], "#1f1532", "#65527e", "#fff8ff"],
+    ["desert", "Desert Sun", "Ochre, clay, and sky", ["#a85f2a", "#d8a735", "#c96a4d", "#4e87a5"], "#24160a", "#70533a", "#fffdf2"],
+    ["sky", "Sky Candy", "Soft cyan and violet", ["#36a9c9", "#d8c75c", "#c970a6", "#7d73c9"], "#20213d", "#65678b", "#ffffff"],
+  ]},
+  { group: "Dark Tables", items: [
+    ["polar", "Polar Night", "Dark navy and ice blue", ["#7eb6d9", "#d8c76a", "#d98274", "#5f9fc8"], "#eef5fb", "#a9b9c6", "#151d25"],
+    ["teal-night", "Teal Nocturne", "Dark teal with aqua glow", ["#2dd4bf", "#f4c95d", "#ef7d66", "#5eb3c7"], "#eafaf7", "#a8c8c1", "#102723"],
+    ["violet-night", "Violet Dusk", "Dark violet and orchid", ["#9b6fe8", "#d8b95a", "#d66e9d", "#6aa6c9"], "#f6efff", "#c9b8df", "#251b36"],
+    ["cobalt", "Cobalt Night", "Dark blue and cyan", ["#44b3d8", "#d8bd5b", "#d97373", "#5e9fca"], "#eef9ff", "#a9c8d9", "#0d2438"],
+    ["emerald-night", "Emerald Night", "Dark green and chartreuse", ["#78c95f", "#d6d85b", "#d9795c", "#5ab8a5"], "#f4ffe8", "#bdd3b0", "#142313"],
+    ["jade", "Jade Terminal", "Dark jade monochrome", ["#54c982", "#b8d96a", "#d57966", "#64b6a6"], "#eaffef", "#9bc6a4", "#07150c"],
+    ["citrus", "Citrus Grove", "Lime, leaf, and lemon", ["#3b8c46", "#c9d94a", "#df8b4f", "#4c9a7d"], "#08140d", "#3d5b49", "#fbfff7"],
+  ]},
 ];
 
-let currentTheme = localStorage.getItem("rozzle-theme") || "rozzle-classic";
-
+const flatThemes = themes.flatMap((group) => group.items.map(([id, name, note, colors, ink, muted, panel]) => ({ id, name, note, colors, ink, muted, panel, group: group.group })));
+const defaultState = { players: [], current: 0, started: false };
+const state = loadState();
 let installPrompt = null;
 let toastTimer = null;
 
-function isStandalone() {
-  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+const $ = (selector) => document.querySelector(selector);
+const setupScreen = $("#setupScreen");
+const gameScreen = $("#gameScreen");
+const playerList = $("#playerList");
+const playerForm = $("#playerForm");
+const playerName = $("#playerName");
+const startGame = $("#startGame");
+const turnName = $("#turnName");
+const turnScore = $("#turnScore");
+const scoreInput = $("#scoreInput");
+const scoreboard = $("#scoreboard");
+const rulesGrid = $("#rulesGrid");
+const fullRulesList = $("#fullRulesList");
+const quickScores = $("#quickScores");
+const themeSections = $("#themeSections");
+const menuButton = $("#menuButton");
+const appMenu = $("#appMenu");
+const modalShade = $("#modalShade");
+const toast = $("#toast");
+const installCard = $("#installCard");
+const installShortcut = $("#installShortcut");
+const installMenuButton = $('[data-action="install"]');
+const installHelp = $("#installHelp");
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("rozzle-state") || "null");
+    if (!saved || !Array.isArray(saved.players)) return structuredClone(defaultState);
+    return {
+      players: saved.players.map((p) => ({
+        name: String(p.name || "").slice(0, 24),
+        score: Number(p.score) || 0,
+        turns: Array.isArray(p.turns) ? p.turns.map(Number).filter(Number.isFinite) : [],
+      })).filter((p) => p.name),
+      current: Number(saved.current) || 0,
+      started: Boolean(saved.started && saved.players.length),
+    };
+  } catch {
+    return structuredClone(defaultState);
+  }
 }
 
 function saveState() {
   localStorage.setItem("rozzle-state", JSON.stringify(state));
 }
 
-function loadState() {
-  const saved = localStorage.getItem("rozzle-state");
-  if (!saved) return;
-
-  try {
-    const parsed = JSON.parse(saved);
-    if (Array.isArray(parsed.players)) {
-      state.players = parsed.players.map((player) => ({
-        name: String(player.name || "").slice(0, 24),
-        score: Number(player.score) || 0,
-        turns: Array.isArray(player.turns) ? player.turns.map(Number).filter(Number.isFinite) : [],
-      })).filter((player) => player.name);
-      state.currentIndex = Number(parsed.currentIndex) || 0;
-      state.started = Boolean(parsed.started && state.players.length);
-    }
-  } catch {
-    localStorage.removeItem("rozzle-state");
-  }
+function themeId() {
+  const saved = localStorage.getItem("rozzle-theme") || "classic";
+  return flatThemes.some((theme) => theme.id === saved) ? saved : "classic";
 }
 
-function renderRules() {
-  rulesGrid.innerHTML = rules.map(([name, points]) => `
-    <div class="rule-row">
-      <span class="rule-name">${name}</span>
-      <span class="rule-points">${points}</span>
-    </div>
-  `).join("");
-}
-
-function applyTheme(themeId) {
-  const theme = themes.some((item) => item.id === themeId) ? themeId : "rozzle-classic";
-  currentTheme = theme;
-  document.body.dataset.theme = theme;
-  localStorage.setItem("rozzle-theme", theme);
+function applyTheme(id) {
+  const next = flatThemes.some((theme) => theme.id === id) ? id : "classic";
+  document.body.dataset.theme = next;
+  localStorage.setItem("rozzle-theme", next);
   renderThemes();
 }
 
-function renderThemes() {
-  if (!themeGrid) return;
+function renderRules() {
+  rulesGrid.innerHTML = rules.map(([name, points]) => `<div class="rule"><b>${name}</b><span>${points}</span></div>`).join("");
+  fullRulesList.innerHTML = rules.map(([name, points]) => `<li>${name}: ${points} points</li>`).join("");
+}
 
-  themeGrid.innerHTML = themes.map((theme) => `
-    <button
-      class="theme-choice"
-      type="button"
-      data-theme="${theme.id}"
-      aria-pressed="${theme.id === currentTheme}"
-      style="--theme-ink: ${theme.ink}; --theme-muted: ${theme.muted}; --theme-panel: ${theme.panel};"
-    >
-      <span>
-        <span class="theme-name">${theme.name}</span>
-        <span class="theme-note">${theme.note}</span>
-      </span>
-      <span class="theme-swatches" aria-hidden="true">
-        ${theme.colors.map((color) => `<span style="background: ${color};"></span>`).join("")}
-      </span>
-    </button>
+function renderQuickScores() {
+  quickScores.innerHTML = [50, 100, 200, 300, 500, 1000, 1500, 2500]
+    .map((score) => `<button type="button" data-score="${score}">+${score}</button>`)
+    .join("");
+}
+
+function renderThemes() {
+  const selected = themeId();
+  themeSections.innerHTML = themes.map((group) => `
+    <section class="theme-section">
+      <h3>${group.group}</h3>
+      <div class="theme-grid">
+        ${group.items.map(([id, name, note, colors, ink, muted, panel]) => `
+          <button class="theme-choice" type="button" data-theme="${id}" aria-pressed="${id === selected}" style="--choice-text:${ink};--choice-muted:${muted};--choice-panel:${panel};--choice-border:${colors[0]}55;">
+            <span><strong>${name}</strong><small>${note}</small></span>
+            <span class="swatches" aria-hidden="true">${colors.map((color) => `<span style="background:${color}"></span>`).join("")}</span>
+          </button>
+        `).join("")}
+      </div>
+    </section>
   `).join("");
 }
 
 function renderSetup() {
+  startGame.disabled = state.players.length === 0;
   if (!state.players.length) {
-    playerList.innerHTML = '<li class="empty">Add players in the order they will roll.</li>';
-    startGameButton.disabled = true;
+    playerList.innerHTML = `<li class="empty">Add players in the order they will roll.</li>`;
     return;
   }
-
-  startGameButton.disabled = false;
   playerList.innerHTML = state.players.map((player, index) => `
-    <li class="player-item">
-      <span class="order-number">${index + 1}</span>
-      <span class="player-name">${player.name}</span>
-      <span class="player-controls">
-        <button class="mini-button" type="button" data-action="up" data-index="${index}" ${index === 0 ? "disabled" : ""} aria-label="Move ${player.name} earlier">↑</button>
-        <button class="mini-button" type="button" data-action="down" data-index="${index}" ${index === state.players.length - 1 ? "disabled" : ""} aria-label="Move ${player.name} later">↓</button>
-        <button class="mini-button" type="button" data-action="remove" data-index="${index}" aria-label="Remove ${player.name}">×</button>
+    <li class="setup-player">
+      <span class="badge">${index + 1}</span>
+      <span class="name">${player.name}</span>
+      <span class="row-actions">
+        <button class="mini" type="button" data-move="up" data-index="${index}" ${index === 0 ? "disabled" : ""} aria-label="Move ${player.name} earlier">↑</button>
+        <button class="mini" type="button" data-move="down" data-index="${index}" ${index === state.players.length - 1 ? "disabled" : ""} aria-label="Move ${player.name} later">↓</button>
+        <button class="mini" type="button" data-remove="${index}" aria-label="Remove ${player.name}">x</button>
       </span>
     </li>
   `).join("");
 }
 
-function renderScorecard() {
-  scorecard.innerHTML = state.players.map((player, index) => {
-    const recentTurns = player.turns.slice(-3).reverse();
-    const history = recentTurns.length ? `Last: ${recentTurns.join(", ")}` : "No turns yet";
-    return `
-      <div class="player-score ${index === state.currentIndex ? "active" : ""}">
-        <span class="order-number">${index + 1}</span>
-        <span class="player-name">${player.name}</span>
-        <span class="score-stack">
-          <strong>${player.score.toLocaleString()}</strong>
-          <span class="history">${history}</span>
-        </span>
+function renderScoreboard() {
+  scoreboard.innerHTML = state.players.map((player, index) => `
+    <article class="score-card ${index === state.current ? "active" : ""}">
+      <span class="badge">${index + 1}</span>
+      <span class="name">${player.name}</span>
+      <div class="score-line">
+        <strong>${player.score.toLocaleString()}</strong>
+        <span>${player.turns.length ? `Last: ${player.turns.slice(-2).reverse().join(", ")}` : "No turns yet"}</span>
       </div>
-    `;
-  }).join("");
+    </article>
+  `).join("");
 }
 
 function renderGame() {
-  const currentPlayer = state.players[state.currentIndex];
-  if (!currentPlayer) return;
-
-  currentPlayerName.textContent = currentPlayer.name;
-  currentPlayerScore.textContent = currentPlayer.score.toLocaleString();
-  renderScorecard();
+  const player = state.players[state.current];
+  if (!player) return;
+  turnName.textContent = player.name;
+  turnScore.textContent = player.score.toLocaleString();
+  renderScoreboard();
 }
 
 function render() {
-  setupScreen.classList.toggle("is-hidden", state.started);
-  gameScreen.classList.toggle("is-hidden", !state.started);
   setupScreen.hidden = state.started;
   gameScreen.hidden = !state.started;
-  renderRules();
+  setupScreen.classList.toggle("is-hidden", state.started);
+  gameScreen.classList.toggle("is-hidden", !state.started);
   renderSetup();
   if (state.started) renderGame();
   updateInstallUI();
+}
+
+function addPlayer(name) {
+  const clean = name.trim();
+  if (!clean) return;
+  state.players.push({ name: clean, score: 0, turns: [] });
+  saveState();
+  render();
+}
+
+function recordTurn(points) {
+  const player = state.players[state.current];
+  const score = Number(points) || 0;
+  player.score += score;
+  player.turns.push(score);
+  state.current = (state.current + 1) % state.players.length;
+  scoreInput.value = "";
+  saveState();
+  render();
+}
+
+function resetGame() {
+  state.started = false;
+  state.current = 0;
+  state.players = state.players.map((p) => ({ name: p.name, score: 0, turns: [] }));
+  scoreInput.value = "";
+  saveState();
+  render();
 }
 
 function closeMenu() {
@@ -209,13 +220,13 @@ function closeMenu() {
 
 function openDialog(dialog) {
   closeMenu();
-  dialogBackdrop.hidden = false;
+  modalShade.hidden = false;
   dialog.showModal();
 }
 
 function closeDialogs() {
-  dialogBackdrop.hidden = true;
-  dialogs.forEach((dialog) => {
+  modalShade.hidden = true;
+  document.querySelectorAll("dialog").forEach((dialog) => {
     if (dialog.open) dialog.close();
   });
 }
@@ -224,51 +235,24 @@ function showToast(message) {
   clearTimeout(toastTimer);
   toast.textContent = message;
   toast.hidden = false;
-  toastTimer = setTimeout(() => {
-    toast.hidden = true;
-  }, 2200);
+  toastTimer = setTimeout(() => { toast.hidden = true; }, 2200);
+}
+
+function isStandalone() {
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 }
 
 function updateInstallUI() {
   const dismissed = sessionStorage.getItem("rozzle-install-dismissed") === "true";
-  const shouldShow = !state.started && !isStandalone() && !dismissed;
-  installNudge.hidden = !shouldShow;
+  const show = !state.started && !isStandalone() && !dismissed;
+  installCard.hidden = !show;
   installMenuButton.hidden = isStandalone();
 }
 
-async function shareApp() {
-  closeMenu();
-  const shareData = {
-    title: "Rozzle",
-    text: "Rozzle is a Farkle / 10000 dice scorekeeper.",
-    url: window.location.origin + window.location.pathname,
-  };
-
-  if (navigator.share) {
-    try {
-      await navigator.share(shareData);
-      return;
-    } catch (error) {
-      if (error.name === "AbortError") return;
-    }
-  }
-
-  try {
-    await navigator.clipboard.writeText(shareData.url);
-    showToast("Rozzle link copied");
-  } catch {
-    showToast("Share is not available here");
-  }
-}
-
-function getInstallHelp() {
+function installHelpText() {
   const ua = navigator.userAgent.toLowerCase();
-  if (/iphone|ipad|ipod/.test(ua)) {
-    return "On iPhone or iPad: tap the Safari Share button, then choose Add to Home Screen.";
-  }
-  if (/android/.test(ua)) {
-    return "On Android: open Chrome's menu, then choose Install app or Add to Home screen.";
-  }
+  if (/iphone|ipad|ipod/.test(ua)) return "On iPhone or iPad: tap the Safari Share button, then choose Add to Home Screen.";
+  if (/android/.test(ua)) return "On Android: open Chrome's menu, then choose Install app or Add to Home screen.";
   return "Open your browser menu and choose Install app or Add to Home Screen.";
 }
 
@@ -278,179 +262,131 @@ async function installApp() {
     installPrompt.prompt();
     await installPrompt.userChoice;
     installPrompt = null;
-    installButton.hidden = true;
+    installShortcut.hidden = true;
     updateInstallUI();
     return;
   }
-
-  installHelpText.textContent = getInstallHelp();
-  openDialog(installDialog);
+  installHelp.textContent = installHelpText();
+  openDialog($("#installDialog"));
 }
 
-function addPlayer(name) {
-  const cleanName = name.trim();
-  if (!cleanName) return;
-
-  state.players.push({ name: cleanName, score: 0, turns: [] });
-  saveState();
-  renderSetup();
+async function shareApp() {
+  closeMenu();
+  const url = `${window.location.origin}${window.location.pathname}`;
+  const data = { title: "Rozzle", text: "Rozzle is a Farkle / 10000 dice scorekeeper.", url };
+  if (navigator.share) {
+    try {
+      await navigator.share(data);
+      return;
+    } catch (error) {
+      if (error.name === "AbortError") return;
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast("Rozzle link copied");
+  } catch {
+    showToast("Share is not available here");
+  }
 }
 
-function movePlayer(from, to) {
-  if (to < 0 || to >= state.players.length) return;
-  const [player] = state.players.splice(from, 1);
-  state.players.splice(to, 0, player);
-  saveState();
-  renderSetup();
-}
-
-function nextPlayer() {
-  state.currentIndex = (state.currentIndex + 1) % state.players.length;
-  scoreInput.value = "";
-  saveState();
-  renderGame();
-}
-
-function recordTurn(points) {
-  const currentPlayer = state.players[state.currentIndex];
-  const score = Number(points) || 0;
-  currentPlayer.score += score;
-  currentPlayer.turns.push(score);
-  nextPlayer();
-}
-
-addPlayerForm.addEventListener("submit", (event) => {
+playerForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  addPlayer(playerNameInput.value);
-  playerNameInput.value = "";
-  playerNameInput.focus();
+  addPlayer(playerName.value);
+  playerName.value = "";
+  playerName.focus();
 });
 
 playerList.addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-action]");
-  if (!button) return;
-
-  const index = Number(button.dataset.index);
-  if (button.dataset.action === "remove") {
-    state.players.splice(index, 1);
-    saveState();
-    renderSetup();
+  const remove = event.target.closest("[data-remove]");
+  const move = event.target.closest("[data-move]");
+  if (remove) {
+    state.players.splice(Number(remove.dataset.remove), 1);
   }
-  if (button.dataset.action === "up") movePlayer(index, index - 1);
-  if (button.dataset.action === "down") movePlayer(index, index + 1);
+  if (move) {
+    const from = Number(move.dataset.index);
+    const to = move.dataset.move === "up" ? from - 1 : from + 1;
+    if (to >= 0 && to < state.players.length) {
+      const [player] = state.players.splice(from, 1);
+      state.players.splice(to, 0, player);
+    }
+  }
+  saveState();
+  render();
 });
 
-startGameButton.addEventListener("click", () => {
+startGame.addEventListener("click", () => {
   if (!state.players.length) return;
   state.started = true;
-  state.currentIndex = 0;
+  state.current = 0;
   saveState();
   render();
 });
 
-addScoreButton.addEventListener("click", () => {
-  recordTurn(scoreInput.value);
-});
-
-farkleButton.addEventListener("click", () => {
-  recordTurn(0);
-});
-
-newGameButton.addEventListener("click", () => {
-  state.started = false;
-  state.currentIndex = 0;
-  state.players = state.players.map((player) => ({
-    name: player.name,
-    score: 0,
-    turns: [],
-  }));
-  scoreInput.value = "";
-  saveState();
-  render();
-});
-
-document.querySelector(".quick-scores").addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-score]");
+$("#newGame").addEventListener("click", resetGame);
+$("#addScore").addEventListener("click", () => recordTurn(scoreInput.value));
+$("#nextPlayer").addEventListener("click", () => recordTurn(0));
+quickScores.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-score]");
   if (!button) return;
-  const current = Number(scoreInput.value) || 0;
-  scoreInput.value = current + Number(button.dataset.score);
+  scoreInput.value = (Number(scoreInput.value) || 0) + Number(button.dataset.score);
 });
 
-themeGrid.addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-theme]");
+menuButton.addEventListener("click", () => {
+  appMenu.hidden = !appMenu.hidden;
+  menuButton.setAttribute("aria-expanded", String(!appMenu.hidden));
+});
+
+appMenu.addEventListener("click", (event) => {
+  const dialogButton = event.target.closest("[data-dialog]");
+  const actionButton = event.target.closest("[data-action]");
+  if (dialogButton) openDialog($(`#${dialogButton.dataset.dialog}`));
+  if (actionButton?.dataset.action === "share") shareApp();
+});
+
+themeSections.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-theme]");
   if (!button) return;
   applyTheme(button.dataset.theme);
 });
 
-window.addEventListener("beforeinstallprompt", (event) => {
-  event.preventDefault();
-  installPrompt = event;
-  installButton.hidden = false;
-  updateInstallUI();
-});
-
-installButton.addEventListener("click", async () => {
-  installApp();
-});
-
-installNudgeButton.addEventListener("click", installApp);
-
-dismissInstallNudge.addEventListener("click", () => {
-  sessionStorage.setItem("rozzle-install-dismissed", "true");
-  updateInstallUI();
-});
-
-window.addEventListener("appinstalled", () => {
-  installPrompt = null;
-  installButton.hidden = true;
-  sessionStorage.setItem("rozzle-install-dismissed", "true");
-  updateInstallUI();
-});
-
-menuButton.addEventListener("click", () => {
-  const isOpen = !appMenu.hidden;
-  appMenu.hidden = isOpen;
-  menuButton.setAttribute("aria-expanded", String(!isOpen));
-});
-
-appMenu.addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-dialog]");
-  if (!button) return;
-  const dialog = document.querySelector(`#${button.dataset.dialog}`);
-  if (dialog) openDialog(dialog);
-});
-
-shareButton.addEventListener("click", shareApp);
-installMenuButton.addEventListener("click", installApp);
-
-dialogBackdrop.addEventListener("click", closeDialogs);
-
-dialogs.forEach((dialog) => {
-  dialog.addEventListener("close", () => {
-    dialogBackdrop.hidden = true;
-  });
-});
-
 document.addEventListener("click", (event) => {
-  if (appMenu.hidden) return;
-  if (event.target.closest(".menu-wrap")) return;
-  closeMenu();
+  if (!appMenu.hidden && !event.target.closest(".menu-shell")) closeMenu();
 });
-
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeMenu();
-    dialogBackdrop.hidden = true;
+    modalShade.hidden = true;
   }
 });
+document.querySelectorAll("[data-close-dialog]").forEach((button) => button.addEventListener("click", closeDialogs));
+document.querySelectorAll("[data-action='install']").forEach((button) => button.addEventListener("click", installApp));
+$("#dismissInstall").addEventListener("click", () => {
+  sessionStorage.setItem("rozzle-install-dismissed", "true");
+  updateInstallUI();
+});
+modalShade.addEventListener("click", closeDialogs);
+document.querySelectorAll("dialog").forEach((dialog) => dialog.addEventListener("close", () => { modalShade.hidden = true; }));
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  installPrompt = event;
+  installShortcut.hidden = false;
+  updateInstallUI();
+});
+window.addEventListener("appinstalled", () => {
+  installPrompt = null;
+  installShortcut.hidden = true;
+  sessionStorage.setItem("rozzle-install-dismissed", "true");
+  updateInstallUI();
+});
+installShortcut.addEventListener("click", installApp);
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("service-worker.js");
-  });
+  window.addEventListener("load", () => navigator.serviceWorker.register("service-worker.js"));
 }
 
-loadState();
-applyTheme(currentTheme);
+renderRules();
+renderQuickScores();
+applyTheme(themeId());
 render();
-updateInstallUI();
