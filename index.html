@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0a0a1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="The Legend of Rozzle" />
+  <title>The Legend of Rozzle</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Title Screen -->
+    <div id="title-screen" class="screen active">
+      <div class="title-bg"></div>
+      <div class="title-content">
+        <div class="title-logo">
+          <div class="title-text-top">The Legend of</div>
+          <div class="title-text-main">ROZZLE</div>
+          <div class="title-stars">★ ★ ★</div>
+        </div>
+        <div class="title-character">
+          <canvas id="title-rozzle" width="64" height="64"></canvas>
+        </div>
+        <div class="title-menu">
+          <button class="menu-btn" id="btn-new-game">New Game</button>
+          <button class="menu-btn" id="btn-continue" disabled>Continue</button>
+          <button class="menu-btn" id="btn-how-to">How to Play</button>
+        </div>
+        <div class="title-footer">Use Arrow Keys or Touch to Move • Space to Fire</div>
+      </div>
+    </div>
+
+    <!-- How To Play Screen -->
+    <div id="howto-screen" class="screen">
+      <div class="howto-content">
+        <h2>How to Play</h2>
+        <div class="howto-grid">
+          <div class="howto-item">
+            <div class="howto-icon heart-icon">♥</div>
+            <div><strong>Collect Hearts</strong><br>Grab all heart containers to open the treasure chest</div>
+          </div>
+          <div class="howto-item">
+            <div class="howto-icon chest-icon">⬛</div>
+            <div><strong>Open Chest</strong><br>Touch the chest after collecting all hearts to advance</div>
+          </div>
+          <div class="howto-item">
+            <div class="howto-icon egg-icon">◉</div>
+            <div><strong>Shoot Eggs</strong><br>Press SPACE or tap Fire to shoot. Eggs freeze enemies</div>
+          </div>
+          <div class="howto-item">
+            <div class="howto-icon push-icon">⬜</div>
+            <div><strong>Push Blocks</strong><br>Push emerald blocks to crush enemies or block attacks</div>
+          </div>
+          <div class="howto-item">
+            <div class="howto-icon enemy-icon">👾</div>
+            <div><strong>Avoid Enemies</strong><br>Don't let enemies touch you — you'll lose a life!</div>
+          </div>
+          <div class="howto-item">
+            <div class="howto-icon frozen-icon">❄</div>
+            <div><strong>Frozen Enemies</strong><br>Push frozen enemies into water or off screens</div>
+          </div>
+        </div>
+        <div class="howto-controls">
+          <h3>Controls</h3>
+          <div class="controls-list">
+            <span>Arrow Keys / WASD</span><span>Move Bizzle</span>
+            <span>Space / Z</span><span>Fire Egg</span>
+            <span>R</span><span>Restart Room</span>
+            <span>Touch Arrows</span><span>Mobile Move</span>
+          </div>
+        </div>
+        <button class="menu-btn" id="btn-back">Back</button>
+      </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+      <div id="hud">
+        <div class="hud-section">
+          <span class="hud-label">ROOM</span>
+          <span id="hud-room" class="hud-value">1</span>
+        </div>
+        <div class="hud-section">
+          <span class="hud-label">LIVES</span>
+          <span id="hud-lives" class="hud-value">3</span>
+        </div>
+        <div class="hud-section">
+          <span class="hud-label">SCORE</span>
+          <span id="hud-score" class="hud-value">0</span>
+        </div>
+        <div class="hud-section">
+          <span class="hud-label">HEARTS</span>
+          <span id="hud-hearts" class="hud-value">0/0</span>
+        </div>
+      </div>
+      <div id="canvas-wrapper">
+        <canvas id="game-canvas"></canvas>
+      </div>
+      <!-- Mobile Controls -->
+      <div id="mobile-controls">
+        <div id="dpad">
+          <button class="dpad-btn" id="dpad-up">▲</button>
+          <div class="dpad-row">
+            <button class="dpad-btn" id="dpad-left">◀</button>
+            <div class="dpad-center"></div>
+            <button class="dpad-btn" id="dpad-right">▶</button>
+          </div>
+          <button class="dpad-btn" id="dpad-down">▼</button>
+        </div>
+        <div id="action-buttons">
+          <button class="action-btn" id="btn-fire">FIRE</button>
+          <button class="action-btn" id="btn-restart">↺</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="gameover-screen" class="screen">
+      <div class="overlay-content">
+        <h2 class="gameover-title">GAME OVER</h2>
+        <div class="final-score">Score: <span id="final-score">0</span></div>
+        <button class="menu-btn" id="btn-retry">Try Again</button>
+        <button class="menu-btn" id="btn-title">Title Screen</button>
+      </div>
+    </div>
+
+    <!-- Level Clear Screen -->
+    <div id="clear-screen" class="screen">
+      <div class="overlay-content">
+        <h2 class="clear-title">ROOM CLEAR!</h2>
+        <div class="clear-info">Room <span id="clear-room">1</span> Complete</div>
+        <div class="clear-bonus">Bonus: +<span id="clear-bonus">100</span></div>
+        <div class="clear-next">Get Ready...</div>
+      </div>
+    </div>
+
+    <!-- Win Screen -->
+    <div id="win-screen" class="screen">
+      <div class="overlay-content">
+        <h2 class="win-title">YOU WIN!</h2>
+        <div class="win-text">Bizzle has saved the day!</div>
+        <div class="final-score">Final Score: <span id="win-score">0</span></div>
+        <button class="menu-btn" id="btn-play-again">Play Again</button>
+        <button class="menu-btn" id="btn-title2">Title Screen</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
+
+
