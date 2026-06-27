@@ -14,9 +14,24 @@
 </head>
 <body>
   <div id="app">
+    <div id="app-version-badge" class="app-version-badge" aria-label="Version 2026.06.27.02">v2026.06.27.02</div>
     <!-- Title Screen -->
     <div id="title-screen" class="screen active">
       <div class="title-bg"></div>
+      <button id="btn-title-options" class="title-options-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="title-options-menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div id="title-options-menu" class="title-options-menu" hidden>
+        <button id="btn-about" class="title-options-item" type="button">About</button>
+      </div>
+      <div id="about-dialog" class="about-dialog" role="dialog" aria-modal="true" aria-labelledby="about-title" hidden>
+        <div class="about-panel">
+          <h2 id="about-title">The Legend of Rozzle</h2>
+          <div class="about-line">Created by: Bill Parsons</div>
+          <div class="about-line">Version: <span id="about-version">2026.06.27.02</span></div>
+          <button class="menu-btn about-close" id="btn-about-close" type="button">Close</button>
+        </div>
+      </div>
       <div class="title-content">
         <div class="title-logo">
           <div class="title-text-top">The Legend of</div>

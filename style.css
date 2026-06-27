@@ -34,6 +34,24 @@ html, body {
 
 #app { width: 100%; height: 100%; position: relative; }
 
+.app-version-badge {
+  position: fixed;
+  top: max(8px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  padding: 5px 8px;
+  border: 1px solid rgba(120,150,255,0.32);
+  background: rgba(5,8,22,0.68);
+  color: rgba(238,240,255,0.78);
+  font-family: var(--pixel);
+  font-size: clamp(6px, 1.5vw, 8px);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  text-shadow: 0 0 8px rgba(80,120,255,0.45);
+}
+
 /* ── Screens ── */
 .screen {
   position: absolute; inset: 0;
@@ -191,6 +209,103 @@ html, body {
   animation: blink 2.2s step-start infinite;
 }
 @keyframes blink { 0%,79%,100%{opacity:1} 80%,95%{opacity:0} }
+
+
+.title-options-btn {
+  position: absolute;
+  top: max(14px, env(safe-area-inset-top));
+  right: max(14px, env(safe-area-inset-right));
+  z-index: 4;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid rgba(120,150,255,0.45);
+  background: rgba(8,12,32,0.72);
+  color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 0 18px rgba(30,60,180,0.25);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.title-options-btn span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 0 8px rgba(255,255,255,0.45);
+}
+.title-options-btn:active,
+.title-options-btn[aria-expanded="true"] {
+  border-color: var(--gold);
+  filter: brightness(1.2);
+}
+.title-options-menu {
+  position: absolute;
+  top: calc(max(14px, env(safe-area-inset-top)) + 50px);
+  right: max(14px, env(safe-area-inset-right));
+  z-index: 5;
+  min-width: 148px;
+  padding: 8px;
+  border: 1px solid rgba(120,150,255,0.45);
+  background: rgba(8,12,32,0.96);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.45), 0 0 24px rgba(40,80,200,0.22);
+}
+.title-options-menu[hidden],
+.about-dialog[hidden] { display: none; }
+.title-options-item {
+  width: 100%;
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--white);
+  background: transparent;
+  border: 0;
+  padding: 12px 10px;
+  text-align: left;
+  cursor: pointer;
+}
+.title-options-item:active,
+.title-options-item:hover {
+  color: var(--gold);
+  background: rgba(80,110,220,0.18);
+}
+.about-dialog {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0,0,0,0.72);
+}
+.about-panel {
+  width: min(420px, 92vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 30px 24px;
+  border: 1px solid rgba(120,150,255,0.5);
+  background: linear-gradient(135deg, rgba(12,18,52,0.98), rgba(6,9,24,0.98));
+  box-shadow: 0 0 48px rgba(40,80,200,0.28);
+  text-align: center;
+}
+.about-panel h2 {
+  font-size: clamp(14px, 4vw, 20px);
+  color: var(--gold);
+  line-height: 1.6;
+  text-shadow: 0 0 18px rgba(255,215,0,0.45);
+}
+.about-line {
+  font-size: clamp(8px, 2.4vw, 11px);
+  line-height: 1.8;
+  color: var(--white);
+}
+.about-close { min-width: 180px; }
 
 /* ── How To Play ── */
 #howto-screen { background: rgba(5,8,20,0.95); }

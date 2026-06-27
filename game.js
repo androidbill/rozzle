@@ -5,6 +5,8 @@
 
 'use strict';
 
+const APP_VERSION = '2026.06.27.02';
+
 // ── Constants ──────────────────────────────────────────
 const TILE = 64;       // HD: 64px per tile
 const COLS = 11;
@@ -285,6 +287,16 @@ function saveProgress() {
 function clearSave() {
   try { localStorage.removeItem(SAVE_KEY); } catch (_) {}
   updateContinueButton();
+}
+
+function updateVersionLabels() {
+  const badge = document.getElementById('app-version-badge');
+  const about = document.getElementById('about-version');
+  if (badge) {
+    badge.textContent = 'v' + APP_VERSION;
+    badge.setAttribute('aria-label', 'Version ' + APP_VERSION);
+  }
+  if (about) about.textContent = APP_VERSION;
 }
 
 function updateContinueButton() {
@@ -1405,10 +1417,40 @@ function drawEntity(e,tick){
 
 // ── Screen Management ──────────────────────────────────
 
+
+function closeTitleOptions() {
+  const btn = document.getElementById('btn-title-options');
+  const menu = document.getElementById('title-options-menu');
+  if (btn) btn.setAttribute('aria-expanded', 'false');
+  if (menu) menu.hidden = true;
+}
+
+function toggleTitleOptions() {
+  const btn = document.getElementById('btn-title-options');
+  const menu = document.getElementById('title-options-menu');
+  if (!btn || !menu) return;
+  const willOpen = menu.hidden;
+  menu.hidden = !willOpen;
+  btn.setAttribute('aria-expanded', String(willOpen));
+}
+
+function openAboutDialog() {
+  closeTitleOptions();
+  const dialog = document.getElementById('about-dialog');
+  updateVersionLabels();
+  if (dialog) dialog.hidden = false;
+}
+
+function closeAboutDialog() {
+  const dialog = document.getElementById('about-dialog');
+  if (dialog) dialog.hidden = true;
+}
+
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if(id === 'title-screen') updateContinueButton();
+  else { closeTitleOptions(); closeAboutDialog(); }
 }
 
 function startRun(room, lives, score) {
@@ -1535,6 +1577,17 @@ canvas.addEventListener('touchend',e=>{
 },{passive:false});
 
 // ── Buttons ────────────────────────────────────────────
+
+document.getElementById('btn-title-options').addEventListener('click',e=>{e.stopPropagation();toggleTitleOptions();});
+document.getElementById('btn-about').addEventListener('click',()=>openAboutDialog());
+document.getElementById('btn-about-close').addEventListener('click',()=>closeAboutDialog());
+document.getElementById('about-dialog').addEventListener('click',e=>{if(e.target.id==='about-dialog')closeAboutDialog();});
+document.addEventListener('click',e=>{
+  const menu=document.getElementById('title-options-menu');
+  const btn=document.getElementById('btn-title-options');
+  if(menu && btn && !menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) closeTitleOptions();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeTitleOptions();closeAboutDialog();}});
 
 document.getElementById('btn-new-game').addEventListener('click',()=>startGame());
 document.getElementById('btn-continue').addEventListener('click',()=>continueGame());
