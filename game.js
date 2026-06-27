@@ -5,7 +5,7 @@
 
 'use strict';
 
-const APP_VERSION = '2026.06.27.02';
+const APP_VERSION = '2026.06.27.03';
 
 // ── Constants ──────────────────────────────────────────
 const TILE = 64;       // HD: 64px per tile
@@ -313,13 +313,10 @@ const ctx    = canvas.getContext('2d');
 
 function resizeCanvas() {
   const wrapper = document.getElementById('canvas-wrapper');
-  const ww = wrapper.clientWidth;
-  const wh = wrapper.clientHeight;
-  const scale = Math.min(ww / W, wh / H);
   canvas.width  = W;
   canvas.height = H;
-  canvas.style.width  = Math.floor(W * scale) + 'px';
-  canvas.style.height = Math.floor(H * scale) + 'px';
+  canvas.style.width  = Math.max(1, wrapper.clientWidth) + 'px';
+  canvas.style.height = Math.max(1, wrapper.clientHeight) + 'px';
 }
 
 // ── HD Drawing Helpers ─────────────────────────────────
