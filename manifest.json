@@ -4,7 +4,7 @@
   "description": "Classic NES-style puzzle-action game — collect hearts, freeze enemies, open the chest!",
   "start_url": "./index.html",
   "display": "fullscreen",
-  "orientation": "landscape",
+  "orientation": "portrait-primary",
   "background_color": "#0a0a1a",
   "theme_color": "#0a0a1a",
   "icons": [
@@ -21,7 +21,8 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["games"],
+  "categories": [
+    "games"
+  ],
   "screenshots": []
 }
-
