@@ -5,7 +5,7 @@
 
 'use strict';
 
-const APP_VERSION = '2026.06.27.07';
+const APP_VERSION = '2026.06.27.08';
 
 // Ã¢â€â‚¬Ã¢â€â‚¬ Constants Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 const TILE = 64;       // HD: 64px per tile
@@ -1465,6 +1465,11 @@ function toggleTitleOptions() {
   btn.setAttribute('aria-expanded', String(willOpen));
 }
 
+function refreshApp() {
+  closeTitleOptions();
+  window.location.reload();
+}
+
 function openAboutDialog() {
   closeTitleOptions();
   const dialog = document.getElementById('about-dialog');
@@ -1820,6 +1825,7 @@ canvas.addEventListener('touchend',e=>{
 // Ã¢â€â‚¬Ã¢â€â‚¬ Buttons Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 document.getElementById('btn-title-options').addEventListener('click',e=>{e.stopPropagation();toggleTitleOptions();});
+document.getElementById('btn-refresh').addEventListener('click',()=>refreshApp());
 document.getElementById('btn-about').addEventListener('click',()=>openAboutDialog());
 document.getElementById('btn-about-close').addEventListener('click',()=>closeAboutDialog());
 document.getElementById('about-dialog').addEventListener('click',e=>{if(e.target.id==='about-dialog')closeAboutDialog();});
