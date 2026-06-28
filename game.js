@@ -5,14 +5,14 @@
 
 'use strict';
 
-const APP_VERSION = '2026.06.27.03';
+const APP_VERSION = '2026.06.27.05';
 
 // ── Constants ──────────────────────────────────────────
 const TILE = 64;       // HD: 64px per tile
 const COLS = 11;
-const ROWS = 10;
+const ROWS = 14;
 const W    = COLS * TILE;   // 704
-const H    = ROWS * TILE;   // 640
+const H    = ROWS * TILE;   // 896
 
 const T = {
   EMPTY: 0, WALL: 1, WATER: 2,
@@ -57,193 +57,211 @@ const C = {
 
 // ── Level Definitions — all verified solvable ──────────
 const LEVELS = [
-  // ── Room 1: Tutorial — open field, one sleeping Leeper ──
-  // Solution: collect 4 hearts freely, watch for waking Leeper, open chest
+  // Room 1
   {
     tiles:[
       [1,1,1,1,1,1,1,1,1,1,1],
       [1,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,3,0,0,0,0,0,3,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,0,0,0,4,0,0,0,0,1],
       [1,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,3,0,0,0,0,0,3,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,0,0,0,0,0,0,0,0,1],
       [1,1,1,1,1,1,1,1,1,1,1],
     ],
-    entities:[{ type:E.LEEPER, col:5, row:4 }],
+    entities:[{ type:E.LEEPER, col:5, row:6 }],
     rozzle:{ col:1, row:1 },
   },
-  // ── Room 2: Snakeys patrol center, emerald blocks flank chest ──
-  // Solution: freeze Snakeys, collect hearts around the open room, reach chest
+  // Room 2
   {
     tiles:[
       [1,1,1,1,1,1,1,1,1,1,1],
+      [1,0,0,1,0,0,0,1,0,0,1],
       [1,0,0,1,0,0,0,1,0,0,1],
       [1,3,0,1,0,0,0,1,0,3,1],
       [1,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,0,0,5,0,5,0,0,0,1],
       [1,0,0,0,0,4,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,0,0,5,0,5,0,0,0,1],
       [1,3,0,0,0,0,0,0,0,3,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,0,1,0,0,0,1,0,0,1],
       [1,1,1,1,1,1,1,1,1,1,1],
     ],
     entities:[
-      { type:E.SNAKEY, col:5, row:2, dir:0 },
-      { type:E.SNAKEY, col:5, row:7, dir:2 },
+      { type:E.SNAKEY, col:5, row:3, dir:0 },
+      { type:E.SNAKEY, col:5, row:10, dir:2 },
     ],
-    rozzle:{ col:1, row:4 },
+    rozzle:{ col:1, row:6 },
   },
-  // ── Room 3: Gols guard fire lanes, water moat around center ──
-  // Hearts reachable via col5 gap. Chest at (5,5) is open (not in water).
-  // Solution: freeze left Gols from (1,3) shooting DOWN, freeze right Gols
-  // from (9,4) shooting DOWN, then collect hearts and reach chest.
+  // Room 3
   {
     tiles:[
       [1,1,1,1,1,1,1,1,1,1,1],
       [1,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,1,1,1,0,1,1,1,0,1],
       [1,0,1,3,0,0,0,3,1,0,1],
+      [1,0,1,0,0,0,0,0,1,0,1],
       [1,0,1,0,0,2,0,0,1,0,1],
       [1,0,0,0,0,4,2,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,1,0,0,2,0,0,1,0,1],
       [1,0,1,3,0,0,0,3,1,0,1],
+      [1,0,1,0,0,0,0,0,1,0,1],
       [1,0,1,1,1,0,1,1,1,0,1],
       [1,1,1,1,1,1,1,1,1,1,1],
     ],
     entities:[
-      { type:E.GOLS, col:1, row:4, dir:0 },
-      { type:E.GOLS, col:9, row:5, dir:2 },
+      { type:E.GOLS, col:1, row:6, dir:0 },
+      { type:E.GOLS, col:9, row:7, dir:2 },
     ],
     rozzle:{ col:1, row:1 },
   },
-  // ── Room 4: Wall corridors, Alma bounces, Don chases ──
-  // All 5 hearts and chest fully open and reachable
+  // Room 4
   {
     tiles:[
       [1,1,1,1,1,1,1,1,1,1,1],
       [1,0,0,0,0,3,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,5,0,0,0,0,0,5,0,1],
       [1,0,0,1,1,0,1,1,0,0,1],
+      [1,0,0,1,0,0,0,1,0,0,1],
       [1,3,0,1,0,0,0,1,0,3,1],
       [1,0,0,0,0,4,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,3,0,1,0,0,0,1,0,3,1],
       [1,0,0,1,1,0,1,1,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,5,0,0,0,0,0,5,0,1],
       [1,1,1,1,1,1,1,1,1,1,1],
     ],
     entities:[
-      { type:E.ALMA, col:3, row:3, dir:0 },
-      { type:E.ALMA, col:7, row:6, dir:2 },
-      { type:E.DON,  col:5, row:2, dir:1 },
+      { type:E.ALMA, col:3, row:4, dir:0 },
+      { type:E.ALMA, col:7, row:9, dir:2 },
+      { type:E.DON, col:5, row:3, dir:1 },
     ],
     rozzle:{ col:1, row:1 },
   },
-  // ── Room 5: Emerald ring around water moat — push to bridge ──
-  // Solution: push emeralds into water to create bridges to chest.
-  // Push (4,3) DOWN → bridge (4,4). Push (3,4) RIGHT → (4,4) already bridge.
-  // Push (3,5) RIGHT → bridge (4,5). Now path: open→(4,5)bridge→(5,5)chest.
+  // Room 5
   {
     tiles:[
       [1,1,1,1,1,1,1,1,1,1,1],
       [1,0,0,0,3,0,3,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,1,0,0,0,0,0,1,0,1],
       [1,0,0,0,5,5,5,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,3,0,5,2,2,2,5,0,3,1],
       [1,0,0,5,2,4,2,5,0,0,1],
+      [1,0,0,0,2,0,2,0,0,0,1],
       [1,3,0,5,2,2,2,5,0,3,1],
       [1,0,0,0,5,5,5,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,1,0,0,0,0,0,1,0,1],
       [1,1,1,1,1,1,1,1,1,1,1],
     ],
     entities:[
-      { type:E.ROCKY,  col:1, row:2, dir:0 },
-      { type:E.ROCKY,  col:9, row:7, dir:2 },
+      { type:E.ROCKY, col:1, row:3, dir:0 },
+      { type:E.ROCKY, col:9, row:10, dir:2 },
       { type:E.SNAKEY, col:5, row:1, dir:1 },
-      { type:E.LEEPER, col:5, row:8 },
+      { type:E.LEEPER, col:5, row:12 },
     ],
     rozzle:{ col:1, row:1 },
   },
-  // ── Room 6: Push emerald down col5 to bridge water, reach chest ──
-  // Solution: push emerald at (5,2) DOWN to (5,3), push again to (5,4)=bridge,
-  // then walk (5,3)→(5,4)bridge→(5,5)chest. Collect hearts first.
+  // Room 6
   {
     tiles:[
       [1,1,1,1,1,1,1,1,1,1,1],
       [1,3,0,0,0,0,0,0,0,3,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,1,1,0,5,0,1,1,0,1],
       [1,0,1,0,0,0,0,0,1,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,0,0,2,2,2,0,0,0,1],
       [1,0,5,2,2,4,2,2,5,0,1],
+      [1,0,0,0,2,0,2,0,0,0,1],
       [1,0,0,0,2,2,2,0,0,0,1],
       [1,0,1,0,0,0,0,0,1,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,3,0,1,1,0,1,1,0,3,1],
       [1,1,1,1,1,1,1,1,1,1,1],
     ],
     entities:[
-      { type:E.DON,    col:2, row:4, dir:0 },
-      { type:E.DON,    col:8, row:5, dir:2 },
-      { type:E.GOLS,   col:5, row:1, dir:1 },
-      { type:E.GOLS,   col:5, row:8, dir:3 },
-      { type:E.LEEPER, col:1, row:8 },
+      { type:E.DON, col:2, row:6, dir:0 },
+      { type:E.DON, col:8, row:7, dir:2 },
+      { type:E.GOLS, col:5, row:1, dir:1 },
+      { type:E.GOLS, col:5, row:12, dir:3 },
+      { type:E.LEEPER, col:1, row:12 },
       { type:E.LEEPER, col:9, row:1 },
     ],
     rozzle:{ col:1, row:1 },
   },
-  // ── Room 7: Four-quadrant layout — all corners reachable, chest in open center-bottom ──
-  // Fixed: open row1 so all 4 corner hearts accessible, chest placed at (5,7) in open area
+  // Room 7
   {
     tiles:[
       [1,1,1,1,1,1,1,1,1,1,1],
       [1,3,0,0,0,0,0,0,0,3,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,1,1,0,5,0,1,1,0,1],
       [1,0,1,0,0,0,0,0,1,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,0,0,0,2,0,0,0,0,1],
       [1,0,5,0,2,0,2,0,5,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,0,0,0,2,0,0,0,0,1],
       [1,0,1,0,0,4,0,0,1,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,3,0,1,1,0,1,1,0,3,1],
       [1,1,1,1,1,1,1,1,1,1,1],
     ],
     entities:[
-      { type:E.ALMA,   col:2, row:5, dir:0 },
-      { type:E.ALMA,   col:8, row:4, dir:2 },
-      { type:E.ROCKY,  col:5, row:3, dir:1 },
-      { type:E.SNAKEY, col:2, row:3, dir:0 },
-      { type:E.SNAKEY, col:8, row:6, dir:2 },
+      { type:E.ALMA, col:2, row:7, dir:0 },
+      { type:E.ALMA, col:8, row:6, dir:2 },
+      { type:E.ROCKY, col:5, row:4, dir:1 },
+      { type:E.SNAKEY, col:2, row:4, dir:0 },
+      { type:E.SNAKEY, col:8, row:9, dir:2 },
     ],
     rozzle:{ col:1, row:1 },
   },
-  // ── Room 8: Final — wall fortress with gaps, water moat inside ──
-  // Fixed: gaps at col5 in top/bottom wall rows so Rozzle can enter fortress.
-  // Chest at (5,5) reachable via (3,5) or (7,5) open corridor.
+  // Room 8
   {
     tiles:[
       [1,1,1,1,1,1,1,1,1,1,1],
       [1,3,0,0,3,0,3,0,0,3,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,5,0,0,0,0,0,5,0,1],
       [1,0,0,1,1,0,1,1,0,0,1],
+      [1,0,0,1,0,0,0,1,0,0,1],
       [1,3,0,1,2,2,2,1,0,3,1],
       [1,0,0,0,0,4,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,3,0,1,2,2,2,1,0,3,1],
       [1,0,0,1,1,0,1,1,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1],
       [1,0,5,0,0,0,0,0,5,0,1],
       [1,1,1,1,1,1,1,1,1,1,1],
     ],
     entities:[
-      { type:E.DON,    col:3, row:2, dir:0 },
-      { type:E.DON,    col:7, row:7, dir:2 },
-      { type:E.ROCKY,  col:1, row:5, dir:0 },
-      { type:E.ROCKY,  col:9, row:4, dir:2 },
-      { type:E.GOLS,   col:5, row:1, dir:1 },
-      { type:E.GOLS,   col:5, row:8, dir:3 },
-      { type:E.LEEPER, col:9, row:8 },
+      { type:E.DON, col:3, row:3, dir:0 },
+      { type:E.DON, col:7, row:10, dir:2 },
+      { type:E.ROCKY, col:1, row:7, dir:0 },
+      { type:E.ROCKY, col:9, row:6, dir:2 },
+      { type:E.GOLS, col:5, row:1, dir:1 },
+      { type:E.GOLS, col:5, row:12, dir:3 },
+      { type:E.LEEPER, col:9, row:12 },
       { type:E.LEEPER, col:1, row:1 },
     ],
-    rozzle:{ col:1, row:8 },
-  },
+    rozzle:{ col:1, row:12 },
+  }
 ];
 
 // ── Game State ─────────────────────────────────────────
@@ -251,7 +269,7 @@ const GS = {
   screen:'title', room:0, lives:3, score:0,
   tiles:null, entities:[], rozzle:null, egg:null,
   hearts:0, heartsTotal:0, chestOpen:false,
-  phase:'play', phaseTimer:0,
+  phase:'play', phaseTimer:0, roomStarted:false,
   moveTimer:0, enemyTimer:0, shotTimer:0,
   keys:{}, mobileDir:null, mobileFire:false, fireHeld:false,
 };
@@ -313,10 +331,13 @@ const ctx    = canvas.getContext('2d');
 
 function resizeCanvas() {
   const wrapper = document.getElementById('canvas-wrapper');
+  const ww = wrapper.clientWidth;
+  const wh = wrapper.clientHeight;
+  const scale = Math.min(ww / W, wh / H);
   canvas.width  = W;
   canvas.height = H;
-  canvas.style.width  = Math.max(1, wrapper.clientWidth) + 'px';
-  canvas.style.height = Math.max(1, wrapper.clientHeight) + 'px';
+  canvas.style.width  = Math.floor(W * scale) + 'px';
+  canvas.style.height = Math.floor(H * scale) + 'px';
 }
 
 // ── HD Drawing Helpers ─────────────────────────────────
@@ -1003,7 +1024,7 @@ function loadRoom(roomIdx) {
   GS.tiles = lvl.tiles.map(r=>[...r]);
   GS.heartsTotal = countHearts(GS.tiles);
   GS.hearts = 0; GS.chestOpen = false;
-  GS.phase = 'play'; GS.phaseTimer = 0; GS.egg = null;
+  GS.phase = 'play'; GS.phaseTimer = 0; GS.roomStarted = false; GS.egg = null;
   const lp = lvl.rozzle;
   GS.rozzle = {
     type:E.ROZZLE, col:lp.col, row:lp.row,
@@ -1105,6 +1126,7 @@ function tryMoveRozzle(dc, dr) {
   GS.rozzle.col=nc;GS.rozzle.row=nr;
   GS.rozzle.targetPx=px(nc);GS.rozzle.targetPy=px(nr);
   GS.rozzle.moving=true;
+  GS.roomStarted=true;
   for(const e of GS.entities){
     if(e.type===E.LEEPER&&!e.frozen){
       const dist=Math.abs(e.col-GS.rozzle.col)+Math.abs(e.row-GS.rozzle.row);
@@ -1317,6 +1339,7 @@ function update(tick){
 
   if(GS.egg&&!GS.egg.frozenTarget){GS.egg.age++;if(GS.egg.age>240)GS.egg=null;}
 
+  if(!GS.roomStarted) return;
   updateEnemies();
   checkRozzleDeath();
   checkEggCollision();
