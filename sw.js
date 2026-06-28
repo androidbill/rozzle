@@ -1,6 +1,6 @@
 /* The Legend of Rozzle — Service Worker */
 
-const CACHE_NAME = 'legend-of-rozzle-v9';
+const CACHE_NAME = 'legend-of-rozzle-v10';
 const ASSETS = [
   './',
   './index.html',

@@ -5,7 +5,7 @@
 
 'use strict';
 
-const APP_VERSION = '2026.06.27.05';
+const APP_VERSION = '2026.06.27.06';
 
 // ── Constants ──────────────────────────────────────────
 const TILE = 64;       // HD: 64px per tile
@@ -1121,7 +1121,7 @@ function tryMoveRozzle(dc, dr) {
     if(tileKillsEnemy(nc2,nr2)){removeEntity(frozenHere);GS.score+=100;}
     else{frozenHere.col=nc2;frozenHere.row=nr2;frozenHere.px=px(nc2);frozenHere.py=px(nr2);frozenHere.targetPx=frozenHere.px;frozenHere.targetPy=frozenHere.py;}
   }
-  if(t===T.HEART){GS.tiles[nr][nc]=T.EMPTY;GS.hearts++;GS.score+=50;updateHUD();if(GS.hearts>=GS.heartsTotal){Audio.playLastHeart();}else{Audio.sfxCollectHeart();}}
+  if(t===T.HEART){GS.tiles[nr][nc]=T.EMPTY;GS.hearts++;GS.score+=50;updateHUD();if(GS.hearts>=GS.heartsTotal){clearEnemiesAfterFinalHeart();Audio.playLastHeart();}else{Audio.sfxCollectHeart();}}
   if(t===T.CHEST&&GS.hearts>=GS.heartsTotal){GS.chestOpen=true;GS.score+=200;Audio.sfxOpenChest();setTimeout(()=>triggerRoomClear(),300);return;}
   GS.rozzle.col=nc;GS.rozzle.row=nr;
   GS.rozzle.targetPx=px(nc);GS.rozzle.targetPy=px(nr);
@@ -1141,6 +1141,7 @@ function crushEnemiesAt(col,row){
   }
 }
 function removeEntity(ent){const i=GS.entities.indexOf(ent);if(i!==-1)GS.entities.splice(i,1);}
+function clearEnemiesAfterFinalHeart(){GS.entities=[];GS.egg=null;}
 
 // ── Firing ─────────────────────────────────────────────
 
