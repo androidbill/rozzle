@@ -5,7 +5,7 @@
 
 'use strict';
 
-const APP_VERSION = '2026.06.27.13';
+const APP_VERSION = '2026.06.27.16';
 
 // ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Constants ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 const TILE = 64;       // HD: 64px per tile
@@ -1120,7 +1120,14 @@ function tryMoveRozzle(dc, dr) {
     Audio.sfxPush();
   }
   if(t===T.WALL||t===T.TREE) return;
-  const frozenHere=GS.entities.find(e=>e.col===nc&&e.row===nr&&e.frozen&&e.type!==E.SHOT);
+  const liveHere=GS.entities.find(e=>e.col===nc&&e.row===nr&&!e.frozen);
+  if(liveHere){
+    if(liveHere.type===E.SHOT){killRozzle();return;}
+    if(liveHere.type===E.LEEPER){sleepLeeper(liveHere);return;}
+    if(liveHere.type===E.ALMA){killRozzle();return;}
+    return;
+  }
+  const frozenHere=GS.entities.find(e=>e.col===nc&&e.row===nr&&e.frozen&&!e.sleeping&&e.type!==E.SHOT);
   if(frozenHere){
     const nc2=nc+dc,nr2=nr+dr;
     if(nc2<0||nc2>=COLS||nr2<0||nr2>=ROWS) return;
@@ -1130,7 +1137,7 @@ function tryMoveRozzle(dc, dr) {
     if(tileKillsEnemy(nc2,nr2)){removeEntity(frozenHere);GS.score+=100;}
     else{frozenHere.col=nc2;frozenHere.row=nr2;frozenHere.px=px(nc2);frozenHere.py=px(nr2);frozenHere.targetPx=frozenHere.px;frozenHere.targetPy=frozenHere.py;}
   }
-  if(t===T.HEART){GS.tiles[nr][nc]=T.EMPTY;GS.hearts++;GS.score+=50;updateHUD();if(GS.hearts>=GS.heartsTotal){clearEnemiesAfterFinalHeart();Audio.playLastHeart();}else{Audio.sfxCollectHeart();}}
+  if(t===T.HEART){GS.tiles[nr][nc]=T.EMPTY;GS.hearts++;GS.score+=50;updateHUD();if(GS.hearts>=GS.heartsTotal){Audio.playLastHeart();}else{Audio.sfxCollectHeart();}}
   if(t===T.CHEST&&GS.hearts>=GS.heartsTotal){GS.chestOpen=true;GS.score+=200;Audio.sfxOpenChest();setTimeout(()=>triggerRoomClear(),300);return;}
   GS.rozzle.col=nc;GS.rozzle.row=nr;
   GS.rozzle.targetPx=px(nc);GS.rozzle.targetPy=px(nr);
@@ -1181,79 +1188,113 @@ function freezeEnemy(ent){
 
 function updateEnemies(){
   const lc=GS.rozzle.col,lr=GS.rozzle.row;
-  const canStep = GS.enemyStepBudget > 0 && GS.rozzle.moving;
+  let anyMoving=false;
   for(const e of [...GS.entities]){
-    if(e.frozen){e.frozenTimer--;if(e.frozenTimer<=0){e.frozen=false;if(GS.egg&&GS.egg.frozenTarget===e)GS.egg=null;}continue;}
+    if(e.frozen&&!e.sleeping){
+      e.frozenTimer--;
+      if(e.frozenTimer<=0){e.frozen=false;if(GS.egg&&GS.egg.frozenTarget===e)GS.egg=null;}
+    }
     if(e.moving){
+      anyMoving=true;
       const spd=MOVE_SPEED;
       const _edx=e.targetPx-e.px,_edy=e.targetPy-e.py,_ed=Math.sqrt(_edx*_edx+_edy*_edy);
       if(_ed<=spd){e.px=e.targetPx;e.py=e.targetPy;e.moving=false;}
       else{e.px+=_edx/_ed*spd;e.py+=_edy/_ed*spd;}
-      continue;
     }
-    if(!canStep) continue;
+  }
+  if(anyMoving) return;
+  GS.enemyTimer=(GS.enemyTimer||0)+1;
+  if(GS.enemyTimer<10) return;
+  GS.enemyTimer=0;
+  for(const e of [...GS.entities]){
+    if(e.frozen||e.moving) continue;
     switch(e.type){
       case E.LEEPER: updateLeeper(e,lc,lr); break;
       case E.SNAKEY: updateSnakey(e,lc,lr); break;
       case E.GOLS:   updateGols(e,lc,lr);   break;
       case E.DON:    updateDon(e,lc,lr);    break;
-      case E.ALMA:   updateAlma(e);          break;
+      case E.ALMA:   updateAlma(e,lc,lr);   break;
       case E.ROCKY:  updateRocky(e,lc,lr);  break;
       case E.SHOT:   updateShot(e);          break;
     }
   }
-  if(canStep) GS.enemyStepBudget--;
 }
 
 function lerp(a,b,t){const v=a+(b-a)*t;return(Math.abs(v-b)<0.5)?b:v;}
 
 function moveEntityTo(e,nc,nr){
   if(nc<0||nc>=COLS||nr<0||nr>=ROWS) return false;
-    if(GS.rozzle&&nc===GS.rozzle.col&&nr===GS.rozzle.row) return false;
-  if(tileSolid(nc,nr,true)) return false;
+  if(GS.rozzle&&nc===GS.rozzle.col&&nr===GS.rozzle.row) return false;
+  if(tileSolid(nc,nr,false)) return false;
   const other=GS.entities.find(o=>o!==e&&o.col===nc&&o.row===nr);
   if(other) return false;
   e.col=nc;e.row=nr;e.targetPx=px(nc);e.targetPy=px(nr);e.moving=true;return true;
 }
 
 function getDirTo(fc,fr,tc,tr){const dc=tc-fc,dr=tr-fr;if(Math.abs(dc)>=Math.abs(dr))return dc>0?0:2;return dr>0?1:3;}
-
-function updateLeeper(e,lc,lr){
-  if(!e.awake){const dist=Math.abs(e.col-lc)+Math.abs(e.row-lr);if(dist<=1)e.awake=true;else return;}
-  const next=bfsNext(e.col,e.row,lc,lr,GS.tiles);
-  if(next){e.dir=getDirTo(e.col,e.row,next.c,next.r);moveEntityTo(e,next.c,next.r);}
+function dirIfAligned(fc,fr,tc,tr){if(fr===tr)return tc>fc?0:2;if(fc===tc)return tr>fr?1:3;return null;}
+function entityBlocksSight(e){return e.type!==E.SHOT;}
+function sightBlocked(c,r,ignore){
+  const t=GS.tiles[r]?.[c];
+  if(t===T.WALL||t===T.EMERALD) return true;
+  return GS.entities.some(o=>o!==ignore&&o.col===c&&o.row===r&&entityBlocksSight(o));
 }
-function updateSnakey(e,lc,lr){
-  const next=bfsNext(e.col,e.row,lc,lr,GS.tiles);
-  if(next){e.dir=getDirTo(e.col,e.row,next.c,next.r);moveEntityTo(e,next.c,next.r);}
-}
-function updateGols(e,lc,lr){
-  const [dc,dr]=DIRS_VEC[e.dir];
+function hasLineOfSight(e,lc,lr,forwardOnly){
+  const dir=dirIfAligned(e.col,e.row,lc,lr);
+  if(dir===null) return false;
+  if(forwardOnly&&dir!==e.dir) return false;
+  const [dc,dr]=DIRS_VEC[dir];
   let c=e.col+dc,r=e.row+dr;
   while(c>=0&&c<COLS&&r>=0&&r<ROWS){
-    if(tileSolid(c,r,false))break;
-    if(c===lc&&r===lr){spawnShot(e.col+dc,e.row+dr,e.dir);break;}
+    if(c===lc&&r===lr) return true;
+    if(sightBlocked(c,r,e)) return false;
     c+=dc;r+=dr;
   }
+  return false;
+}
+function sleepLeeper(e){
+  e.sleeping=true;e.frozen=true;e.frozenTimer=999999;e.moving=false;
+  e.targetPx=e.px=px(e.col);e.targetPy=e.py=px(e.row);
+}
+
+function updateLeeper(e,lc,lr){
+  if(Math.abs(e.col-lc)+Math.abs(e.row-lr)<=1){sleepLeeper(e);return;}
+  if(!e.awake){const dist=Math.abs(e.col-lc)+Math.abs(e.row-lr);if(dist<=3)e.awake=true;else return;}
+  const choices=[e.dir??0,(e.dir+1)%4,(e.dir+3)%4,(e.dir+2)%4];
+  for(const d of choices){const [dc,dr]=DIRS_VEC[d];if(moveEntityTo(e,e.col+dc,e.row+dr)){e.dir=d;return;}}
+}
+function updateSnakey(e,lc,lr){
+  // Snakeys are Lolo-style harmless blockers.
+}
+function updateGols(e,lc,lr){
+  if(GS.hearts<GS.heartsTotal) return;
+  if((e.shotCooldown||0)>0){e.shotCooldown--;return;}
+  const dir=dirIfAligned(e.col,e.row,lc,lr);
+  if(dir===null) return;
+  e.dir=dir;
+  if(hasLineOfSight(e,lc,lr,false)){const [dc,dr]=DIRS_VEC[dir];spawnShot(e.col+dc,e.row+dr,dir);e.shotCooldown=3;}
 }
 function updateDon(e,lc,lr){
-  const next=bfsNext(e.col,e.row,lc,lr,GS.tiles);
-  if(next){e.dir=getDirTo(e.col,e.row,next.c,next.r);moveEntityTo(e,next.c,next.r);}
-}
-function updateAlma(e){
   const [dc,dr]=DIRS_VEC[e.dir];
-  if(!moveEntityTo(e,e.col+dc,e.row+dr)){
-    for(const d of [(e.dir+1)%4,(e.dir+3)%4,(e.dir+2)%4]){
-      const [dc2,dr2]=DIRS_VEC[d];
-      if(moveEntityTo(e,e.col+dc2,e.row+dr2)){e.dir=d;break;}
-    }
+  if(!moveEntityTo(e,e.col+dc,e.row+dr)){e.dir=(e.dir+2)%4;}
+}
+function updateAlma(e,lc,lr){
+  if(e.rolling){
+    const [dc,dr]=DIRS_VEC[e.dir];
+    if(!moveEntityTo(e,e.col+dc,e.row+dr)) e.rolling=false;
+    return;
+  }
+  const dir=dirIfAligned(e.col,e.row,lc,lr);
+  if(dir===null) return;
+  e.dir=dir;
+  if(hasLineOfSight(e,lc,lr,false)){
+    e.rolling=true;
+    const [dc,dr]=DIRS_VEC[e.dir];
+    moveEntityTo(e,e.col+dc,e.row+dr);
   }
 }
 function updateRocky(e,lc,lr){
-  e.stepCounter=(e.stepCounter||0)+1;
-  if(e.stepCounter%2===0){const [dc,dr]=DIRS_VEC[e.dir];spawnShot(e.col+dc,e.row+dr,e.dir);}
-  const [dc,dr]=DIRS_VEC[e.dir];
-  if(!moveEntityTo(e,e.col+dc,e.row+dr))e.dir=(e.dir+1)%4;
+  // Rockys block and pin routes, but do not shoot or kill.
 }
 function spawnShot(col,row,dir){
   if(col<0||col>=COLS||row<0||row>=ROWS) return;
@@ -1276,20 +1317,25 @@ function updateShot(e){
 
 // ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Collision Detection ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 
-function enemyFacesRozzle(e, lc, lr){
+function enemyThreatensRozzle(e, lc, lr){
   if(e.type===E.SHOT) return e.col===lc&&e.row===lr;
-  if(e.frozen||e.moving) return false;
-  const dx=lc-e.col, dy=lr-e.row;
-  if(Math.abs(dx)+Math.abs(dy)!==1) return false;
-  const [dc,dr]=DIRS_VEC[e.dir||0];
-  return dx===dc&&dy===dr;
+  if(e.frozen||e.sleeping||e.type===E.SNAKEY||e.type===E.LEEPER||e.type===E.ROCKY) return false;
+  if(e.type===E.GOLS) return GS.hearts>=GS.heartsTotal&&hasLineOfSight(e,lc,lr,false);
+  if(e.type===E.DON) return hasLineOfSight(e,lc,lr,false);
+  if(e.type===E.ALMA){
+    const dx=lc-e.col, dy=lr-e.row;
+    if(Math.abs(dx)+Math.abs(dy)!==1) return false;
+    const [dc,dr]=DIRS_VEC[e.dir||0];
+    return e.rolling&&dx===dc&&dy===dr;
+  }
+  return false;
 }
 
 function checkRozzleDeath(){
   if(GS.rozzle.invincible>0){GS.rozzle.invincible--;return;}
   const lc=GS.rozzle.col,lr=GS.rozzle.row;
   for(const e of GS.entities){
-    if(enemyFacesRozzle(e,lc,lr)){killRozzle();return;}
+    if(enemyThreatensRozzle(e,lc,lr)){killRozzle();return;}
   }
 }
 function checkEggCollision(){
@@ -1301,7 +1347,7 @@ function checkEggCollision(){
 }
 
 function killRozzle(){if(GS.phase!=='play')return;GS.phase='dead';GS.phaseTimer=90;GS.rozzle.invincible=999;Audio.sfxDie();Audio.stopMusic();setTimeout(()=>{if(GS.lives<=1)Audio.playGameOver();else Audio.playGameplay();},1800);}
-function triggerRoomClear(){if(GS.phase!=='play')return;GS.phase='clear';GS.phaseTimer=150;GS.score+=(GS.room+1)*100;Audio.playRoomClear();}
+function triggerRoomClear(){if(GS.phase!=='play')return;clearEnemiesAfterFinalHeart();GS.phase='clear';GS.phaseTimer=150;GS.score+=(GS.room+1)*100;Audio.playRoomClear();}
 
 function updateHUD(){
   document.getElementById('hud-room').textContent=GS.room+1;
