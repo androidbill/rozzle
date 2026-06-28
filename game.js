@@ -1,13 +1,13 @@
 /* =====================================================
-   The Legend of Rozzle Ã¢â‚¬â€ HD Game Engine
-   Full gradient/arc/glow rendering Ã¢â‚¬â€ premium look
+   The Legend of Rozzle â€” HD Game Engine
+   Full gradient/arc/glow rendering â€” premium look
    ===================================================== */
 
 'use strict';
 
-const APP_VERSION = '2026.06.27.08';
+const APP_VERSION = '2026.06.27.09';
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Constants Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const TILE = 64;       // HD: 64px per tile
 const COLS = 11;
 const ROWS = 14;
@@ -33,7 +33,7 @@ const E = {
   SHOT:   'shot',
 };
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ HD Palette Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ HD Palette â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const C = {
   floorA:  '#111428', floorB: '#181e3a',
   wallA:   '#1a3080', wallB: '#0d1a55', wallTop: '#3a5acc', wallEdge: '#0a1040',
@@ -55,7 +55,7 @@ const C = {
   frozenA: '#88ddff', frozenB:'#2266aa', frozenGlow:'#bbefff',
 };
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Level Definitions Ã¢â‚¬â€ all verified solvable Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Level Definitions â€” all verified solvable â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const LEVELS = [
   // Room 1
   {
@@ -264,12 +264,12 @@ const LEVELS = [
   }
 ];
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Game State Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Game State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const GS = {
   screen:'title', room:0, lives:3, score:0,
   tiles:null, entities:[], rozzle:null, egg:null,
   hearts:0, heartsTotal:0, chestOpen:false,
-  phase:'play', phaseTimer:0, roomStarted:false,
+  phase:'play', phaseTimer:0, roomStarted:false, enemyStepBudget:0,
   moveTimer:0, enemyTimer:0, shotTimer:0,
   keys:{}, mobileDir:null, mobileFire:false, fireHeld:false,
 };
@@ -334,7 +334,7 @@ function updateContinueButton() {
   btn.textContent = save ? `Continue Room ${save.room + 1}` : 'Continue';
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Canvas Setup Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Canvas Setup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const canvas = document.getElementById('game-canvas');
 const ctx    = canvas.getContext('2d');
 
@@ -349,7 +349,7 @@ function resizeCanvas() {
   canvas.style.height = Math.floor(H * scale) + 'px';
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ HD Drawing Helpers Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ HD Drawing Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function px(c) { return c * TILE; }
 
@@ -389,7 +389,7 @@ function noGlow() {
   ctx.shadowBlur  = 0;
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Pre-baked floor canvas (generated once) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Pre-baked floor canvas (generated once) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let floorCanvas = null;
 function buildFloorCanvas() {
   floorCanvas = document.createElement('canvas');
@@ -428,7 +428,7 @@ function buildFloorCanvas() {
   }
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Tile Rendering Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Tile Rendering â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function drawWall(x, y) {
   const T2 = TILE;
@@ -442,7 +442,7 @@ function drawWall(x, y) {
   ctx.fillStyle = g;
   ctx.fill();
 
-  // Beveled edges Ã¢â‚¬â€ top/left light
+  // Beveled edges â€” top/left light
   ctx.fillStyle = 'rgba(100,140,255,0.35)';
   ctx.fillRect(x+1, y+1, T2-2, 3);
   ctx.fillRect(x+1, y+1, 3, T2-2);
@@ -696,7 +696,7 @@ function drawBridge(x, y) {
   ctx.fillRect(x+2, y+T2-6, T2-4, 4);
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Entity Rendering Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Entity Rendering â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function drawShadow(cx, cy, rx, ry) {
   ctx.fillStyle = 'rgba(0,0,0,0.25)';
@@ -717,7 +717,7 @@ function drawRozzle(ent, tick) {
   // Body glow
   glow(C.rozzleGlow, 20);
 
-  // Main body Ã¢â‚¬â€ big round blob
+  // Main body â€” big round blob
   const bodyGrad = radialGrad(-6, -8, 4, 26, '#88bbff', C.rozzleB);
   ctx.fillStyle = bodyGrad;
   ctx.beginPath(); ctx.arc(0, 0, 24, 0, Math.PI*2); ctx.fill();
@@ -977,7 +977,7 @@ function drawRocky(ent, tick) {
   }
   drawEnemyBody(cx, cy, r, C.rockyA, C.rockyB, C.rockyGlow, 12);
   drawEyes(cx, cy, '#ffffff','#331100', 9, 5.5, 0, -2);
-  // Rocky texture Ã¢â‚¬â€ pebble dots
+  // Rocky texture â€” pebble dots
   ctx.fillStyle='rgba(90,60,20,0.5)';
   [[cx-5,cy+6,4],[cx+8,cy+2,3],[cx-10,cy+2,3.5],[cx+2,cy+10,2.5]].forEach(([rx,ry,rr])=>{
     ctx.beginPath(); ctx.arc(rx,ry,rr,0,Math.PI*2); ctx.fill();
@@ -1022,7 +1022,7 @@ function drawShot(ent, tick) {
   ctx.restore();
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Room Loading (unchanged logic) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Room Loading (unchanged logic) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function countHearts(tiles) {
   let n=0; for(const row of tiles) for(const t of row) if(t===T.HEART)n++; return n;
@@ -1033,7 +1033,7 @@ function loadRoom(roomIdx) {
   GS.tiles = lvl.tiles.map(r=>[...r]);
   GS.heartsTotal = countHearts(GS.tiles);
   GS.hearts = 0; GS.chestOpen = false;
-  GS.phase = 'play'; GS.phaseTimer = 0; GS.roomStarted = false; GS.egg = null;
+  GS.phase = 'play'; GS.phaseTimer = 0; GS.roomStarted = false; GS.enemyStepBudget = 0; GS.egg = null;
   const lp = lvl.rozzle;
   GS.rozzle = {
     type:E.ROZZLE, col:lp.col, row:lp.row,
@@ -1055,7 +1055,7 @@ function loadRoom(roomIdx) {
   }
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Pathfinding Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Pathfinding â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function bfsNext(fromCol, fromRow, toCol, toRow, tiles) {
   const visited = Array.from({length:ROWS},()=>new Array(COLS).fill(false));
@@ -1083,7 +1083,7 @@ function bfsNext(fromCol, fromRow, toCol, toRow, tiles) {
   return null;
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Collision Helpers Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Collision Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function tileSolid(col, row, forEnemy) {
   if(col<0||col>=COLS||row<0||row>=ROWS) return true;
@@ -1099,7 +1099,7 @@ function tileKillsEnemy(col, row) {
   return t===T.WATER||t===T.WALL;
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Rozzle Movement Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Rozzle Movement â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MOVE_SPEED = 10;
 
@@ -1136,6 +1136,7 @@ function tryMoveRozzle(dc, dr) {
   GS.rozzle.targetPx=px(nc);GS.rozzle.targetPy=px(nr);
   GS.rozzle.moving=true;
   GS.roomStarted=true;
+  GS.enemyStepBudget++;
   for(const e of GS.entities){
     if(e.type===E.LEEPER&&!e.frozen){
       const dist=Math.abs(e.col-GS.rozzle.col)+Math.abs(e.row-GS.rozzle.row);
@@ -1152,7 +1153,7 @@ function crushEnemiesAt(col,row){
 function removeEntity(ent){const i=GS.entities.indexOf(ent);if(i!==-1)GS.entities.splice(i,1);}
 function clearEnemiesAfterFinalHeart(){GS.entities=[];GS.egg=null;}
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Firing Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Firing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const DIRS_VEC=[[1,0],[0,1],[-1,0],[0,-1]];
 
@@ -1176,23 +1177,21 @@ function freezeEnemy(ent){
   Audio.sfxFreeze();
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Enemy AI (unchanged) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-
-let enemyTick=0;
+// â”€â”€ Enemy AI (unchanged) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function updateEnemies(){
-  enemyTick++;
   const lc=GS.rozzle.col,lr=GS.rozzle.row;
-  for(const e of GS.entities){
+  const canStep = GS.enemyStepBudget > 0 && GS.rozzle.moving;
+  for(const e of [...GS.entities]){
     if(e.frozen){e.frozenTimer--;if(e.frozenTimer<=0){e.frozen=false;if(GS.egg&&GS.egg.frozenTarget===e)GS.egg=null;}continue;}
-    if(e.type===E.SHOT){updateShot(e);continue;}
     if(e.moving){
-      const spd=(e.type===E.DON)?6:4;
+      const spd=MOVE_SPEED;
       const _edx=e.targetPx-e.px,_edy=e.targetPy-e.py,_ed=Math.sqrt(_edx*_edx+_edy*_edy);
       if(_ed<=spd){e.px=e.targetPx;e.py=e.targetPy;e.moving=false;}
       else{e.px+=_edx/_ed*spd;e.py+=_edy/_ed*spd;}
       continue;
     }
+    if(!canStep) continue;
     switch(e.type){
       case E.LEEPER: updateLeeper(e,lc,lr); break;
       case E.SNAKEY: updateSnakey(e,lc,lr); break;
@@ -1200,8 +1199,10 @@ function updateEnemies(){
       case E.DON:    updateDon(e,lc,lr);    break;
       case E.ALMA:   updateAlma(e);          break;
       case E.ROCKY:  updateRocky(e,lc,lr);  break;
+      case E.SHOT:   updateShot(e);          break;
     }
   }
+  if(canStep) GS.enemyStepBudget--;
 }
 
 function lerp(a,b,t){const v=a+(b-a)*t;return(Math.abs(v-b)<0.5)?b:v;}
@@ -1218,17 +1219,14 @@ function getDirTo(fc,fr,tc,tr){const dc=tc-fc,dr=tr-fr;if(Math.abs(dc)>=Math.abs
 
 function updateLeeper(e,lc,lr){
   if(!e.awake){const dist=Math.abs(e.col-lc)+Math.abs(e.row-lr);if(dist<=1)e.awake=true;else return;}
-  if(enemyTick%30!==0)return;
   const next=bfsNext(e.col,e.row,lc,lr,GS.tiles);
   if(next){e.dir=getDirTo(e.col,e.row,next.c,next.r);moveEntityTo(e,next.c,next.r);}
 }
 function updateSnakey(e,lc,lr){
-  if(enemyTick%26!==0)return;
   const next=bfsNext(e.col,e.row,lc,lr,GS.tiles);
   if(next){e.dir=getDirTo(e.col,e.row,next.c,next.r);moveEntityTo(e,next.c,next.r);}
 }
 function updateGols(e,lc,lr){
-  if(enemyTick%60!==0)return;
   const [dc,dr]=DIRS_VEC[e.dir];
   let c=e.col+dc,r=e.row+dr;
   while(c>=0&&c<COLS&&r>=0&&r<ROWS){
@@ -1238,12 +1236,10 @@ function updateGols(e,lc,lr){
   }
 }
 function updateDon(e,lc,lr){
-  if(enemyTick%18!==0)return;
   const next=bfsNext(e.col,e.row,lc,lr,GS.tiles);
   if(next){e.dir=getDirTo(e.col,e.row,next.c,next.r);moveEntityTo(e,next.c,next.r);}
 }
 function updateAlma(e){
-  if(enemyTick%18!==0)return;
   const [dc,dr]=DIRS_VEC[e.dir];
   if(!moveEntityTo(e,e.col+dc,e.row+dr)){
     for(const d of [(e.dir+1)%4,(e.dir+3)%4,(e.dir+2)%4]){
@@ -1253,8 +1249,10 @@ function updateAlma(e){
   }
 }
 function updateRocky(e,lc,lr){
-  if(enemyTick%80===0){const [dc,dr]=DIRS_VEC[e.dir];spawnShot(e.col+dc,e.row+dr,e.dir);}
-  if(enemyTick%40===0){const [dc,dr]=DIRS_VEC[e.dir];if(!moveEntityTo(e,e.col+dc,e.row+dr))e.dir=(e.dir+1)%4;}
+  e.stepCounter=(e.stepCounter||0)+1;
+  if(e.stepCounter%2===0){const [dc,dr]=DIRS_VEC[e.dir];spawnShot(e.col+dc,e.row+dr,e.dir);}
+  const [dc,dr]=DIRS_VEC[e.dir];
+  if(!moveEntityTo(e,e.col+dc,e.row+dr))e.dir=(e.dir+1)%4;
 }
 function spawnShot(col,row,dir){
   if(col<0||col>=COLS||row<0||row>=ROWS) return;
@@ -1275,7 +1273,7 @@ function updateShot(e){
   e.col=nc;e.row=nr;e.targetPx=px(nc);e.targetPy=px(nr);e.moving=true;
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Collision Detection Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Collision Detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function checkRozzleDeath(){
   if(GS.rozzle.invincible>0){GS.rozzle.invincible--;return;}
@@ -1302,7 +1300,7 @@ function updateHUD(){
   document.getElementById('hud-hearts').textContent=`${GS.hearts}/${GS.heartsTotal}`;
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Main Loop Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Main Loop â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 let tick=0, lastTime=0, animId=null;
 
@@ -1379,7 +1377,7 @@ function handleInput(){
   if(GS.keys['r']||GS.keys['R']){GS.keys['r']=GS.keys['R']=false;loadRoom(GS.room);updateHUD();}
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ HD Render Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ HD Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function render(tick){
   ctx.clearRect(0,0,W,H);
@@ -1446,7 +1444,7 @@ function drawEntity(e,tick){
   }
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Screen Management Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Screen Management â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 
 function closeTitleOptions() {
@@ -1674,7 +1672,7 @@ function drawEndingCutscene(ct) {
   ct.fillStyle = '#ff77cc';
   ct.font = '54px serif';
   ct.textAlign = 'center';
-  ct.fillText('Ã¢â„¢Â¥', W / 2, 380);
+  ct.fillText('â™¥', W / 2, 380);
   ct.font = '24px "Press Start 2P", monospace';
   ct.fillStyle = '#ffd700';
   ct.fillText('Happily Ever After', W / 2, 700);
@@ -1725,7 +1723,7 @@ function showEndingCutscene() {
   });
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Title Rozzle (HD) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Title Rozzle (HD) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function drawTitleRozzle(){
   const c=document.getElementById('title-rozzle');
@@ -1779,7 +1777,7 @@ function drawTitleRozzle(){
   frame();
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Input Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Input â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 document.addEventListener('keydown',e=>{
   GS.keys[e.key]=true;
@@ -1822,7 +1820,7 @@ canvas.addEventListener('touchend',e=>{
   touchStart=null;e.preventDefault();
 },{passive:false});
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Buttons Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 document.getElementById('btn-title-options').addEventListener('click',e=>{e.stopPropagation();toggleTitleOptions();});
 document.getElementById('btn-refresh').addEventListener('click',()=>refreshApp());
@@ -1847,14 +1845,14 @@ document.getElementById('btn-title').addEventListener('click',()=>{if(animId)can
 document.getElementById('btn-play-again').addEventListener('click',()=>startGame());
 document.getElementById('btn-title2').addEventListener('click',()=>{if(animId)cancelAnimationFrame(animId);showScreen('title-screen');Audio.stopMusic();Audio.playTitle();});
 
-// Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
-// Ã¢â€â‚¬Ã¢â€â‚¬ Audio Engine Ã¢â‚¬â€ The Legend of Rozzle Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// â”€â”€ Audio Engine â€” The Legend of Rozzle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // MP3 background music via HTML5 Audio.
 // Sound effects via Web Audio API (square wave SFX).
-// Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 const Audio = (() => {
-  // Ã¢â€â‚¬Ã¢â€â‚¬ MP3 player Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  // â”€â”€ MP3 player â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const bgm = new window.Audio('music.mp3');
   bgm.loop    = true;
   bgm.volume  = 0.55;
@@ -1884,7 +1882,7 @@ const Audio = (() => {
     musicPaused = false;
   }
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬ Web Audio for SFX Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  // â”€â”€ Web Audio for SFX â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   let AC = null;
   let master = null;
 
@@ -1924,7 +1922,7 @@ const Audio = (() => {
     for (let i = 0; i < 12; i++)
       F[NS[i]+oct] = 440 * Math.pow(2, ((oct+1)*12 + i - 69) / 12);
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬ Music state hooks Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  // â”€â”€ Music state hooks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Title, gameplay, and last-heart all use the same
   // looping MP3. Room clear / game over pause it briefly
   // then resume. Win screen fades it out.
@@ -2028,7 +2026,7 @@ const Audio = (() => {
     tt=t0; for(const[f,b]of bas){if(f>0)note(f,tt,b*B*0.88,0.46,'triangle');tt+=b*B;}
   }
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬ Sound effects Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  // â”€â”€ Sound effects â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function sfxFire() {
     boot(); resume();
     const t = AC.currentTime;
@@ -2074,7 +2072,7 @@ const Audio = (() => {
   };
 })();
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Init Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 window.addEventListener('resize',resizeCanvas);
 drawTitleRozzle();
