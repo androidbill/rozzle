@@ -1,13 +1,13 @@
 /* =====================================================
-   The Legend of Rozzle — HD Game Engine
-   Full gradient/arc/glow rendering — premium look
+   The Legend of Rozzle Ã¢â‚¬â€ HD Game Engine
+   Full gradient/arc/glow rendering Ã¢â‚¬â€ premium look
    ===================================================== */
 
 'use strict';
 
-const APP_VERSION = '2026.06.27.06';
+const APP_VERSION = '2026.06.28.01';
 
-// ── Constants ──────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Constants Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 const TILE = 64;       // HD: 64px per tile
 const COLS = 11;
 const ROWS = 14;
@@ -33,7 +33,7 @@ const E = {
   SHOT:   'shot',
 };
 
-// ── HD Palette ─────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ HD Palette Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 const C = {
   floorA:  '#111428', floorB: '#181e3a',
   wallA:   '#1a3080', wallB: '#0d1a55', wallTop: '#3a5acc', wallEdge: '#0a1040',
@@ -55,7 +55,7 @@ const C = {
   frozenA: '#88ddff', frozenB:'#2266aa', frozenGlow:'#bbefff',
 };
 
-// ── Level Definitions — all verified solvable ──────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Level Definitions Ã¢â‚¬â€ all verified solvable Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 const LEVELS = [
   // Room 1
   {
@@ -264,7 +264,7 @@ const LEVELS = [
   }
 ];
 
-// ── Game State ─────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Game State Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 const GS = {
   screen:'title', room:0, lives:3, score:0,
   tiles:null, entities:[], rozzle:null, egg:null,
@@ -274,6 +274,15 @@ const GS = {
   keys:{}, mobileDir:null, mobileFire:false, fireHeld:false,
 };
 const SAVE_KEY = 'legend-of-rozzle-save-v1';
+const ROZZLE_LINES = [
+  'Bizzle, I can hear you getting closer!',
+  'Please hurry, Bizzle!',
+  'Zark is taking me deeper into the maze!',
+  'I believe in you, Bizzle!',
+  'Save me before Zark gets away!',
+  'Your courage gives me hope!',
+  'Bizzle, follow the hearts!',
+];
 
 function getSavedGame() {
   try {
@@ -325,7 +334,7 @@ function updateContinueButton() {
   btn.textContent = save ? `Continue Room ${save.room + 1}` : 'Continue';
 }
 
-// ── Canvas Setup ───────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Canvas Setup Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 const canvas = document.getElementById('game-canvas');
 const ctx    = canvas.getContext('2d');
 
@@ -340,7 +349,7 @@ function resizeCanvas() {
   canvas.style.height = Math.floor(H * scale) + 'px';
 }
 
-// ── HD Drawing Helpers ─────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ HD Drawing Helpers Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 function px(c) { return c * TILE; }
 
@@ -380,7 +389,7 @@ function noGlow() {
   ctx.shadowBlur  = 0;
 }
 
-// ── Pre-baked floor canvas (generated once) ────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Pre-baked floor canvas (generated once) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 let floorCanvas = null;
 function buildFloorCanvas() {
   floorCanvas = document.createElement('canvas');
@@ -419,7 +428,7 @@ function buildFloorCanvas() {
   }
 }
 
-// ── Tile Rendering ─────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Tile Rendering Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 function drawWall(x, y) {
   const T2 = TILE;
@@ -433,7 +442,7 @@ function drawWall(x, y) {
   ctx.fillStyle = g;
   ctx.fill();
 
-  // Beveled edges — top/left light
+  // Beveled edges Ã¢â‚¬â€ top/left light
   ctx.fillStyle = 'rgba(100,140,255,0.35)';
   ctx.fillRect(x+1, y+1, T2-2, 3);
   ctx.fillRect(x+1, y+1, 3, T2-2);
@@ -687,7 +696,7 @@ function drawBridge(x, y) {
   ctx.fillRect(x+2, y+T2-6, T2-4, 4);
 }
 
-// ── Entity Rendering ───────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Entity Rendering Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 function drawShadow(cx, cy, rx, ry) {
   ctx.fillStyle = 'rgba(0,0,0,0.25)';
@@ -708,7 +717,7 @@ function drawRozzle(ent, tick) {
   // Body glow
   glow(C.rozzleGlow, 20);
 
-  // Main body — big round blob
+  // Main body Ã¢â‚¬â€ big round blob
   const bodyGrad = radialGrad(-6, -8, 4, 26, '#88bbff', C.rozzleB);
   ctx.fillStyle = bodyGrad;
   ctx.beginPath(); ctx.arc(0, 0, 24, 0, Math.PI*2); ctx.fill();
@@ -968,7 +977,7 @@ function drawRocky(ent, tick) {
   }
   drawEnemyBody(cx, cy, r, C.rockyA, C.rockyB, C.rockyGlow, 12);
   drawEyes(cx, cy, '#ffffff','#331100', 9, 5.5, 0, -2);
-  // Rocky texture — pebble dots
+  // Rocky texture Ã¢â‚¬â€ pebble dots
   ctx.fillStyle='rgba(90,60,20,0.5)';
   [[cx-5,cy+6,4],[cx+8,cy+2,3],[cx-10,cy+2,3.5],[cx+2,cy+10,2.5]].forEach(([rx,ry,rr])=>{
     ctx.beginPath(); ctx.arc(rx,ry,rr,0,Math.PI*2); ctx.fill();
@@ -1013,7 +1022,7 @@ function drawShot(ent, tick) {
   ctx.restore();
 }
 
-// ── Room Loading (unchanged logic) ────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Room Loading (unchanged logic) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 function countHearts(tiles) {
   let n=0; for(const row of tiles) for(const t of row) if(t===T.HEART)n++; return n;
@@ -1046,7 +1055,7 @@ function loadRoom(roomIdx) {
   }
 }
 
-// ── Pathfinding ────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Pathfinding Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 function bfsNext(fromCol, fromRow, toCol, toRow, tiles) {
   const visited = Array.from({length:ROWS},()=>new Array(COLS).fill(false));
@@ -1074,7 +1083,7 @@ function bfsNext(fromCol, fromRow, toCol, toRow, tiles) {
   return null;
 }
 
-// ── Collision Helpers ──────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Collision Helpers Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 function tileSolid(col, row, forEnemy) {
   if(col<0||col>=COLS||row<0||row>=ROWS) return true;
@@ -1090,7 +1099,7 @@ function tileKillsEnemy(col, row) {
   return t===T.WATER||t===T.WALL;
 }
 
-// ── Rozzle Movement ─────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Rozzle Movement Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 const MOVE_SPEED = 10;
 
@@ -1143,7 +1152,7 @@ function crushEnemiesAt(col,row){
 function removeEntity(ent){const i=GS.entities.indexOf(ent);if(i!==-1)GS.entities.splice(i,1);}
 function clearEnemiesAfterFinalHeart(){GS.entities=[];GS.egg=null;}
 
-// ── Firing ─────────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Firing Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 const DIRS_VEC=[[1,0],[0,1],[-1,0],[0,-1]];
 
@@ -1167,7 +1176,7 @@ function freezeEnemy(ent){
   Audio.sfxFreeze();
 }
 
-// ── Enemy AI (unchanged) ───────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Enemy AI (unchanged) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 let enemyTick=0;
 
@@ -1266,7 +1275,7 @@ function updateShot(e){
   e.col=nc;e.row=nr;e.targetPx=px(nc);e.targetPy=px(nr);e.moving=true;
 }
 
-// ── Collision Detection ────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Collision Detection Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 function checkRozzleDeath(){
   if(GS.rozzle.invincible>0){GS.rozzle.invincible--;return;}
@@ -1293,7 +1302,7 @@ function updateHUD(){
   document.getElementById('hud-hearts').textContent=`${GS.hearts}/${GS.heartsTotal}`;
 }
 
-// ── Main Loop ──────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Main Loop Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 let tick=0, lastTime=0, animId=null;
 
@@ -1320,9 +1329,10 @@ function update(tick){
     GS.phaseTimer--;
     if(GS.phaseTimer<=0){
       GS.room++;
-      if(GS.room>=LEVELS.length){clearSave();showScreen('win-screen');document.getElementById('win-score').textContent=GS.score;GS.phase='win';Audio.playWin();return;}
+      if(GS.room>=LEVELS.length){clearSave();GS.phase='win';Audio.playWin();showEndingCutscene();return;}
       saveProgress();
-      loadRoom(GS.room);updateHUD();GS.phase='play';Audio.playGameplay();
+      GS.phase='story';
+      showRescueCutscene(GS.room);
     }
     return;
   }
@@ -1369,7 +1379,7 @@ function handleInput(){
   if(GS.keys['r']||GS.keys['R']){GS.keys['r']=GS.keys['R']=false;loadRoom(GS.room);updateHUD();}
 }
 
-// ── HD Render ──────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ HD Render Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 function render(tick){
   ctx.clearRect(0,0,W,H);
@@ -1436,7 +1446,7 @@ function drawEntity(e,tick){
   }
 }
 
-// ── Screen Management ──────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Screen Management Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 
 function closeTitleOptions() {
@@ -1491,7 +1501,7 @@ function startRun(room, lives, score) {
 
 function startGame(){
   clearSave();
-  startRun(0, 3, 0);
+  showIntroCutscene();
 }
 
 function continueGame(){
@@ -1500,7 +1510,217 @@ function continueGame(){
   startRun(save.room, save.lives, save.score);
 }
 
-// ── Title Rozzle (HD) ────────────────────────────────────
+
+let cutsceneAction = null;
+
+function speechBubble(ct, text, x, y, w, h, tailX, tailY) {
+  ct.save();
+  ct.fillStyle = 'rgba(255,255,255,0.94)';
+  ct.strokeStyle = '#182452';
+  ct.lineWidth = 4;
+  roundCanvasRect(ct, x, y, w, h, 18);
+  ct.fill();
+  ct.stroke();
+  ct.beginPath();
+  ct.moveTo(x + w * 0.42, y + h - 2);
+  ct.lineTo(tailX, tailY);
+  ct.lineTo(x + w * 0.58, y + h - 2);
+  ct.closePath();
+  ct.fill();
+  ct.stroke();
+  ct.fillStyle = '#111735';
+  ct.font = '20px "Press Start 2P", monospace';
+  ct.textAlign = 'center';
+  ct.textBaseline = 'middle';
+  wrapCanvasText(ct, text, x + w / 2, y + h / 2, w - 34, 30);
+  ct.restore();
+}
+
+function roundCanvasRect(ct, x, y, w, h, r) {
+  ct.beginPath();
+  ct.moveTo(x + r, y);
+  ct.lineTo(x + w - r, y);
+  ct.quadraticCurveTo(x + w, y, x + w, y + r);
+  ct.lineTo(x + w, y + h - r);
+  ct.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ct.lineTo(x + r, y + h);
+  ct.quadraticCurveTo(x, y + h, x, y + h - r);
+  ct.lineTo(x, y + r);
+  ct.quadraticCurveTo(x, y, x + r, y);
+  ct.closePath();
+}
+
+function wrapCanvasText(ct, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(' ');
+  const lines = [];
+  let line = '';
+  for (const word of words) {
+    const test = line ? line + ' ' + word : word;
+    if (ct.measureText(test).width > maxWidth && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = test;
+    }
+  }
+  if (line) lines.push(line);
+  const start = y - ((lines.length - 1) * lineHeight) / 2;
+  lines.forEach((l, i) => ct.fillText(l, x, start + i * lineHeight));
+}
+
+function drawStoryBackground(ct, title) {
+  const bg = ct.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#060817');
+  bg.addColorStop(0.55, '#111a42');
+  bg.addColorStop(1, '#050713');
+  ct.fillStyle = bg;
+  ct.fillRect(0, 0, W, H);
+  ct.fillStyle = 'rgba(80,110,220,0.18)';
+  for (let y = 110; y < H; y += 88) ct.fillRect(0, y, W, 4);
+  for (let x = 42; x < W; x += 96) ct.fillRect(x, 90, 4, H - 180);
+  ct.fillStyle = 'rgba(255,255,255,0.08)';
+  for (let i = 0; i < 38; i++) {
+    const x = (i * 73) % W;
+    const y = 70 + ((i * 109) % 680);
+    ct.fillRect(x, y, 3, 3);
+  }
+  ct.fillStyle = '#ffd700';
+  ct.font = '22px "Press Start 2P", monospace';
+  ct.textAlign = 'center';
+  ct.fillText(title, W / 2, 54);
+}
+
+function drawOrbCharacter(ct, x, y, r, main, dark, name, mood) {
+  ct.save();
+  ct.fillStyle = 'rgba(0,0,0,0.35)';
+  ct.beginPath();
+  ct.ellipse(x, y + r * 1.05, r * 0.9, r * 0.2, 0, 0, Math.PI * 2);
+  ct.fill();
+  ct.shadowColor = main;
+  ct.shadowBlur = 28;
+  const g = ct.createRadialGradient(x - r * 0.3, y - r * 0.35, r * 0.12, x, y, r * 1.05);
+  g.addColorStop(0, '#ffffff');
+  g.addColorStop(0.25, main);
+  g.addColorStop(1, dark);
+  ct.fillStyle = g;
+  ct.beginPath();
+  ct.arc(x, y, r, 0, Math.PI * 2);
+  ct.fill();
+  ct.shadowBlur = 0;
+  ct.fillStyle = '#ffffff';
+  ct.beginPath(); ct.ellipse(x - r * 0.32, y - r * 0.12, r * 0.18, r * 0.24, 0, 0, Math.PI * 2); ct.fill();
+  ct.beginPath(); ct.ellipse(x + r * 0.32, y - r * 0.12, r * 0.18, r * 0.24, 0, 0, Math.PI * 2); ct.fill();
+  ct.fillStyle = name === 'ZARK' ? '#05050a' : '#06184f';
+  ct.beginPath(); ct.arc(x - r * 0.3, y - r * 0.1, r * 0.09, 0, Math.PI * 2); ct.fill();
+  ct.beginPath(); ct.arc(x + r * 0.32, y - r * 0.1, r * 0.09, 0, Math.PI * 2); ct.fill();
+  ct.strokeStyle = mood === 'happy' ? '#ff2255' : mood === 'scared' ? '#3a1040' : '#ff2244';
+  ct.lineWidth = 5;
+  ct.lineCap = 'round';
+  ct.beginPath();
+  if (mood === 'happy') ct.arc(x, y + r * 0.22, r * 0.28, 0.12, Math.PI - 0.12);
+  else if (mood === 'scared') ct.arc(x, y + r * 0.32, r * 0.16, Math.PI, Math.PI * 2);
+  else ct.arc(x, y + r * 0.2, r * 0.24, Math.PI + 0.15, -0.15);
+  ct.stroke();
+  if (name === 'ROZZLE') {
+    ct.fillStyle = '#ff7ad9';
+    ct.beginPath(); ct.arc(x - r * 0.42, y - r * 0.82, r * 0.18, 0, Math.PI * 2); ct.fill();
+    ct.beginPath(); ct.arc(x - r * 0.12, y - r * 0.82, r * 0.18, 0, Math.PI * 2); ct.fill();
+    ct.fillStyle = '#ffd6f5';
+    ct.beginPath(); ct.arc(x - r * 0.27, y - r * 0.82, r * 0.1, 0, Math.PI * 2); ct.fill();
+  }
+  if (name === 'ZARK') {
+    ct.strokeStyle = '#aa0022';
+    ct.lineWidth = 6;
+    ct.beginPath(); ct.moveTo(x - r * 0.46, y - r * 0.42); ct.lineTo(x - r * 0.16, y - r * 0.3); ct.stroke();
+    ct.beginPath(); ct.moveTo(x + r * 0.46, y - r * 0.42); ct.lineTo(x + r * 0.16, y - r * 0.3); ct.stroke();
+  }
+  ct.fillStyle = '#eef0ff';
+  ct.font = '16px "Press Start 2P", monospace';
+  ct.textAlign = 'center';
+  ct.fillText(name, x, y + r * 1.55);
+  ct.restore();
+}
+
+function drawIntroCutscene(ct) {
+  drawStoryBackground(ct, 'ZARK STRIKES');
+  drawOrbCharacter(ct, 150, 620, 58, '#3377ff', '#1144cc', 'BIZZLE', 'brave');
+  drawOrbCharacter(ct, 430, 440, 66, '#ff66cc', '#b0187e', 'ROZZLE', 'scared');
+  drawOrbCharacter(ct, 535, 415, 76, '#151522', '#000000', 'ZARK', 'mean');
+  ct.strokeStyle = 'rgba(255,40,80,0.7)';
+  ct.lineWidth = 10;
+  ct.beginPath(); ct.moveTo(486, 435); ct.lineTo(456, 454); ct.stroke();
+  speechBubble(ct, "She's mine!", 410, 155, 250, 92, 540, 330);
+  speechBubble(ct, 'Save me Bizzle!', 220, 250, 300, 110, 430, 370);
+  speechBubble(ct, 'I will save you Rozzle!', 44, 420, 325, 120, 150, 548);
+}
+
+function drawRescueCutscene(ct, line) {
+  drawStoryBackground(ct, 'ROZZLE CALLS');
+  drawOrbCharacter(ct, W / 2, 470, 150, '#ff66cc', '#b0187e', 'ROZZLE', 'scared');
+  speechBubble(ct, line, 70, 140, 565, 150, W / 2, 300);
+  ct.fillStyle = 'rgba(255,102,204,0.2)';
+  ct.beginPath(); ct.arc(W / 2, 470, 220, 0, Math.PI * 2); ct.fill();
+}
+
+function drawEndingCutscene(ct) {
+  drawStoryBackground(ct, 'HAPPILY EVER AFTER');
+  drawOrbCharacter(ct, 285, 455, 94, '#3377ff', '#1144cc', 'BIZZLE', 'happy');
+  drawOrbCharacter(ct, 420, 455, 94, '#ff66cc', '#b0187e', 'ROZZLE', 'happy');
+  ct.fillStyle = '#ff77cc';
+  ct.font = '54px serif';
+  ct.textAlign = 'center';
+  ct.fillText('Ã¢â„¢Â¥', W / 2, 380);
+  ct.font = '24px "Press Start 2P", monospace';
+  ct.fillStyle = '#ffd700';
+  ct.fillText('Happily Ever After', W / 2, 700);
+}
+
+function drawCutscene(kind, line) {
+  const c = document.getElementById('cutscene-canvas');
+  if (!c) return;
+  c.width = W;
+  c.height = H;
+  const ct = c.getContext('2d');
+  if (kind === 'intro') drawIntroCutscene(ct);
+  else if (kind === 'ending') drawEndingCutscene(ct);
+  else drawRescueCutscene(ct, line);
+}
+
+function showCutscene(kind, line, buttonText, action) {
+  cutsceneAction = action;
+  const btn = document.getElementById('btn-cutscene-next');
+  if (btn) btn.textContent = buttonText || 'Continue';
+  drawCutscene(kind, line);
+  showScreen('cutscene-screen');
+  Audio.stopMusic();
+}
+
+function finishCutscene() {
+  const action = cutsceneAction;
+  cutsceneAction = null;
+  if (action) action();
+}
+
+function showIntroCutscene() {
+  showCutscene('intro', '', 'Start Adventure', () => startRun(0, 3, 0));
+}
+
+function showRescueCutscene(nextRoom) {
+  const line = ROZZLE_LINES[(nextRoom - 1) % ROZZLE_LINES.length];
+  showCutscene('rescue', line, 'Next Room', () => {
+    loadRoom(GS.room);updateHUD();GS.phase='play';
+    showScreen('game-screen');resizeCanvas();Audio.playGameplay();
+  });
+}
+
+function showEndingCutscene() {
+  showCutscene('ending', '', 'Title Screen', () => {
+    if(animId)cancelAnimationFrame(animId);
+    showScreen('title-screen');Audio.stopMusic();Audio.playTitle();
+  });
+}
+
+// Ã¢â€â‚¬Ã¢â€â‚¬ Title Rozzle (HD) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 function drawTitleRozzle(){
   const c=document.getElementById('title-rozzle');
@@ -1554,7 +1774,7 @@ function drawTitleRozzle(){
   frame();
 }
 
-// ── Input ──────────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Input Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 document.addEventListener('keydown',e=>{
   GS.keys[e.key]=true;
@@ -1597,7 +1817,7 @@ canvas.addEventListener('touchend',e=>{
   touchStart=null;e.preventDefault();
 },{passive:false});
 
-// ── Buttons ────────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Buttons Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 document.getElementById('btn-title-options').addEventListener('click',e=>{e.stopPropagation();toggleTitleOptions();});
 document.getElementById('btn-about').addEventListener('click',()=>openAboutDialog());
@@ -1610,6 +1830,8 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeTitleOptions();closeAboutDialog();}});
 
+document.getElementById('btn-cutscene-next').addEventListener('click',()=>finishCutscene());
+
 document.getElementById('btn-new-game').addEventListener('click',()=>startGame());
 document.getElementById('btn-continue').addEventListener('click',()=>continueGame());
 document.getElementById('btn-how-to').addEventListener('click',()=>showScreen('howto-screen'));
@@ -1619,14 +1841,14 @@ document.getElementById('btn-title').addEventListener('click',()=>{if(animId)can
 document.getElementById('btn-play-again').addEventListener('click',()=>startGame());
 document.getElementById('btn-title2').addEventListener('click',()=>{if(animId)cancelAnimationFrame(animId);showScreen('title-screen');Audio.stopMusic();Audio.playTitle();});
 
-// ══════════════════════════════════════════════════════
-// ── Audio Engine — The Legend of Rozzle ──────────────
+// Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+// Ã¢â€â‚¬Ã¢â€â‚¬ Audio Engine Ã¢â‚¬â€ The Legend of Rozzle Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 // MP3 background music via HTML5 Audio.
 // Sound effects via Web Audio API (square wave SFX).
-// ══════════════════════════════════════════════════════
+// Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 
 const Audio = (() => {
-  // ── MP3 player ─────────────────────────────────────
+  // Ã¢â€â‚¬Ã¢â€â‚¬ MP3 player Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   const bgm = new window.Audio('music.mp3');
   bgm.loop    = true;
   bgm.volume  = 0.55;
@@ -1656,7 +1878,7 @@ const Audio = (() => {
     musicPaused = false;
   }
 
-  // ── Web Audio for SFX ──────────────────────────────
+  // Ã¢â€â‚¬Ã¢â€â‚¬ Web Audio for SFX Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   let AC = null;
   let master = null;
 
@@ -1696,7 +1918,7 @@ const Audio = (() => {
     for (let i = 0; i < 12; i++)
       F[NS[i]+oct] = 440 * Math.pow(2, ((oct+1)*12 + i - 69) / 12);
 
-  // ── Music state hooks ───────────────────────────────
+  // Ã¢â€â‚¬Ã¢â€â‚¬ Music state hooks Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   // Title, gameplay, and last-heart all use the same
   // looping MP3. Room clear / game over pause it briefly
   // then resume. Win screen fades it out.
@@ -1800,7 +2022,7 @@ const Audio = (() => {
     tt=t0; for(const[f,b]of bas){if(f>0)note(f,tt,b*B*0.88,0.46,'triangle');tt+=b*B;}
   }
 
-  // ── Sound effects ───────────────────────────────────
+  // Ã¢â€â‚¬Ã¢â€â‚¬ Sound effects Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   function sfxFire() {
     boot(); resume();
     const t = AC.currentTime;
@@ -1846,7 +2068,7 @@ const Audio = (() => {
   };
 })();
 
-// ── Init ───────────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬ Init Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 window.addEventListener('resize',resizeCanvas);
 drawTitleRozzle();

@@ -14,7 +14,7 @@
 </head>
 <body>
   <div id="app">
-    <div id="app-version-badge" class="app-version-badge" aria-label="Version 2026.06.27.06">v2026.06.27.06</div>
+    <div id="app-version-badge" class="app-version-badge" aria-label="Version 2026.06.28.01">v2026.06.28.01</div>
     <!-- Title Screen -->
     <div id="title-screen" class="screen active">
       <div class="title-bg"></div>
@@ -28,7 +28,7 @@
         <div class="about-panel">
           <h2 id="about-title">The Legend of Rozzle</h2>
           <div class="about-line">Created by: Bill Parsons</div>
-          <div class="about-line">Version: <span id="about-version">2026.06.27.06</span></div>
+          <div class="about-line">Version: <span id="about-version">2026.06.28.01</span></div>
           <button class="menu-btn about-close" id="btn-about-close" type="button">Close</button>
         </div>
       </div>
@@ -90,6 +90,14 @@
           </div>
         </div>
         <button class="menu-btn" id="btn-back">Back</button>
+      </div>
+    </div>
+
+    <!-- Story Cutscene Screen -->
+    <div id="cutscene-screen" class="screen">
+      <div class="cutscene-content">
+        <canvas id="cutscene-canvas" width="704" height="896"></canvas>
+        <button class="menu-btn cutscene-next" id="btn-cutscene-next" type="button">Continue</button>
       </div>
     </div>
 
